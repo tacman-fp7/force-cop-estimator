@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
 
     //forceCoPEstimator->waitForWrite();
 
-    //yarp::os::Network::connect("/icubSim/skin/left_hand_comp", "/tempForceCoPEstimation");
+    yarp::os::Network::connect("/icubSim/skin/left_hand_comp", "/tempForceCoPEstimation");
 
     while(true)
         ;

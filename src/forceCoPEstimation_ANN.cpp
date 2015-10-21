@@ -26,9 +26,9 @@ void ForceCoPEstimation_ANN::onRead(yarp::os::Bottle &tactileBottle)
 {
     // Tactile data is available
 
-    cout << "incoming data" << endl;
+    cout << "incoming data:" << tactileBottle.size() <<    endl;
 
-    for(fingertipList_t::iterator it; it != _fingertip_list.end(); it++)
+    for(fingertipList_t::iterator it = _fingertip_list.begin(); it != _fingertip_list.end(); it++)
     {
 
         // For each fingetip calculate the cop and force
@@ -49,7 +49,7 @@ void ForceCoPEstimation_ANN::onRead(yarp::os::Bottle &tactileBottle)
         // Publish the data
 
         Bottle &forceCoP_out = it->dataPort->prepare();
-
+        forceCoP_out.clear();
         for (int i = 0; i < cop.size(); i++)
             forceCoP_out.addDouble(cop.at(i));
 

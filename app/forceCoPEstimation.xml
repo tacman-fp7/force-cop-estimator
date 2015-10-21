@@ -15,8 +15,18 @@
 		<node>localhost</node>
 		<display></display>
 		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/icubSim/skin/left_hand_comp</port>
+		</dependencies>
 	</module>
   
+	<module>
+	  <name>play-tactile-data</name>
+	  <parameters></parameters>
+	  <node></node>
+	  <display>visible</display>
+	  <stdio></stdio>
+	</module>
   
 	<connection>
 	  <from> /icubSim/skin/left_hand_comp </from>

@@ -80,6 +80,7 @@ NeuralNet::NeuralNet(yarp::os::Property &modelConfig)
             {
 
                 cout << "Warning: no connection weights defined" << endl;
+                _layers.back().push_back(Neuron(1, neuron));
 
             }
 
@@ -92,7 +93,8 @@ NeuralNet::NeuralNet(yarp::os::Property &modelConfig)
 
 void NeuralNet::getResults(vector<double> &results) const
 {
- for(vector<Neuron>::const_iterator it = _layers.back().begin(); it != _layers.back().end(); it ++)
+ for(vector<Neuron>::const_iterator it = _layers.back().begin();
+     it != (--_layers.back().end()); it ++) // The last neuron is the bias neuron
  {
      results.push_back(it->getOutputVal());
  }
@@ -114,7 +116,8 @@ void NeuralNet::feedForward(vector<double> &input)
 
         Layer &previousLayer = _layers[layerNum - 1];
 
-        for (unsigned int neuronNum = 0; neuronNum < _layers[layerNum].size(); neuronNum++)
+
+        for (unsigned int neuronNum = 0; neuronNum < _layers[layerNum].size()-1; neuronNum++)
         {
             _layers[layerNum][neuronNum].feedForward(previousLayer);
         }
@@ -126,7 +129,7 @@ Neuron::Neuron(unsigned int numOutputs, unsigned int index)
 {
 
     //std::cout << "Created a neuron!" << std::endl;
-
+_myIndex = index;
     for(unsigned int c = 0; c < numOutputs; c++)
     {
         _outputWeights.push_back(connection(0.0, 0.0));
