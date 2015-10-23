@@ -29,7 +29,19 @@ private:
     vector<Layer> _layers; //_layers[layerNum][neuronNum]
     // The layers are connected
 
+    // The input transfer data
+private:
 
+    vector<double> _inputXoffset;
+    vector<double> _inputGain;
+    double _inputYmin;
+
+    vector<double> _outputXoffset;
+    vector<double> _outputGain;
+    double _outputYmin;
+
+    void mapMinMax_apply(vector<double> &inputVector);
+    void mapMinMax_reverse(vector<double> &outputVector);
 
 };
 
@@ -59,8 +71,8 @@ private:
     double _outputVal;
     vector<connection> _outputWeights;
     unsigned int _myIndex;
-
     static double transferFunction(double val);
+
 
 
 };
