@@ -26,7 +26,7 @@ void ForceCoPEstimation_ANN::onRead(yarp::os::Bottle &tactileBottle)
 {
     // Tactile data is available
 
-    cout << "incoming data:" << tactileBottle.size() <<    endl;
+    //cout << "incoming data:" << tactileBottle.size() <<    endl;
 
     for(fingertipList_t::iterator it = _fingertip_list.begin(); it != _fingertip_list.end(); it++)
     {
@@ -37,13 +37,15 @@ void ForceCoPEstimation_ANN::onRead(yarp::os::Bottle &tactileBottle)
         for(int i = it->startIndex; i < it->startIndex + 12; i++)
             input.push_back(tactileBottle.get(i).asDouble());
 
-        it->model_CoP->feedForward(input);
+
+
+        //it->model_CoP->feedForward(input);
         it->model_force->feedForward(input);
 
         vector<double> cop;
         vector<double> force;
 
-        it->model_CoP->getResults(cop);
+        //it->model_CoP->getResults(cop);
         it->model_force->getResults(cop);
 
         // Publish the data
@@ -57,6 +59,7 @@ void ForceCoPEstimation_ANN::onRead(yarp::os::Bottle &tactileBottle)
             forceCoP_out.addDouble(force.at(i));
 
 
+        cout << forceCoP_out.toString() << endl;
         it->dataPort->write(true);
         it->dataPort->waitForWrite();
 
@@ -111,7 +114,7 @@ bool ForceCoPEstimation_ANN::init(ResourceFinder &rf)
             fingertip.startIndex = 0;
         }
 
-        fingertip.modelFile_CoP = rf.findFileByName(subPart.find("model_CoP").asString());
+       fingertip.modelFile_CoP = rf.findFileByName(subPart.find("model_CoP").asString());
 
         // Open it
         Property modelConf;

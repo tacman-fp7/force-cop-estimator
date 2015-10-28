@@ -1,0 +1,55 @@
+<application>
+	<!-- yarpmanager file for the object surface exploration experiments -->
+	<name> forceCoPEstimationDatadumper </name>
+	<description> Force CoP Estimation </description>
+	<version> 0.0 </version>
+
+	<authors>
+		<author email="nawid.jamali@iit.it"> Nawid Jamali </author>
+	</authors>
+
+	<!-- Required modules -->
+	<module>
+		<name>forceCoPEstimation</name>
+		<parameters>--context forceCoPEstimation</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/icubSim/skin/left_hand_comp</port>
+		</dependencies>
+	</module>
+  
+	<module>
+	  <name>play-tactile-data</name>
+	  <parameters></parameters>
+	  <node></node>
+	  <display>visible_na</display>
+	  <stdio>localhost</stdio>
+	</module>
+  
+	<module>
+	  <name>yarpdatadumper</name>
+	  <parameters>--name /data/force_pos_test</parameters>
+	  <stdio/>
+	</module>
+	
+	<connection>
+	  <from> /icubSim/skin/left_hand_comp </from>
+	  <to> /tempForceCoPEstimation </to>
+	  <protocol> tcp </protocol>
+	</connection>
+	
+	<connection>
+	  <from>/forceCoPEstimation/left_index</from>
+	  <to>/data/force_pos_test</to>
+	  <protocol>tcp</protocol>
+	</connection>
+	
+	<!--<connection> 
+		<from>/cam/right</from> 
+		<to>/view/right</to> 
+		<protocol>udp</protocol> 
+	</connection> -->
+
+</application>

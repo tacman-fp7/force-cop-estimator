@@ -120,16 +120,17 @@ NeuralNet::NeuralNet(yarp::os::Property &modelConfig)
 
         unsigned int numNeurons = step.check("numNeurons", Value(0)).asInt();
         cout << "Number of Neurons: " << numNeurons << endl;
-
+        std::string transferFcn = step.check("transferFcn", Value("invalid")).asString();
+        cout << "Transfer function: " << transferFcn << endl;
 
         for ( unsigned int neuron = 0; neuron <= numNeurons; neuron++) // The extra neuron is for the bias
         {
 
 
-          char buffer[256];
-          sprintf(buffer, "neuron_%d", neuron);
+            char buffer[256];
+            sprintf(buffer, "neuron_%d", neuron);
 
-          //cout << buffer << endl;
+            //cout << buffer << endl;
             Bottle *weightsBottle = step.find(buffer).asList();
 
             if(weightsBottle != NULL)
@@ -140,13 +141,13 @@ NeuralNet::NeuralNet(yarp::os::Property &modelConfig)
                     weights.push_back(weightsBottle->get(i).asDouble());
 
                 // std::cout << "Adding a neuron" << std::endl;
-                _layers.back().push_back(Neuron(weights, neuron));
+                _layers.back().push_back(Neuron(weights, neuron, transferFcn));
             }
             else
             {
 
                 cout << "Warning: no connection weights defined" << endl;
-                _layers.back().push_back(Neuron(1, neuron));
+                _layers.back().push_back(Neuron(1, neuron, transferFcn));
 
             }
 
@@ -159,18 +160,26 @@ NeuralNet::NeuralNet(yarp::os::Property &modelConfig)
 
 void NeuralNet::getResults(vector<double> &results) const
 {
- for(vector<Neuron>::const_iterator it = _layers.back().begin();
-     it != (--_layers.back().end()); it ++) // The last neuron is the bias neuron
- {
-     results.push_back(it->getOutputVal());
- }
+
+    for(vector<Neuron>::const_iterator it = _layers.back().begin();
+        it != (--_layers.back().end()); it ++) // The last neuron is the bias neuron
+    {
+        results.push_back(it->getOutputVal());
+    }
+
+    mapMinMax_reverse(results);
 }
 
 void NeuralNet::feedForward(vector<double> &input)
 {
     assert(input.size() == _layers.at(0).size() - 1); // -1 for the bias node
 
+
+    mapMinMax_apply(input);
+
+
     // Latch the input;
+    //cout << "Layer 0:" << endl;
     for (unsigned int i = 0; i < input.size(); i++)
     {
         _layers[0][i].setOutputVal(input.at(i));
@@ -180,6 +189,7 @@ void NeuralNet::feedForward(vector<double> &input)
     for (unsigned int layerNum = 1; layerNum < _layers.size(); layerNum++)
     {
 
+       // cout << "Layer: " << layerNum << endl;
         Layer &previousLayer = _layers[layerNum - 1];
 
 
@@ -189,13 +199,27 @@ void NeuralNet::feedForward(vector<double> &input)
         }
     }
 
+
 }
 
-Neuron::Neuron(unsigned int numOutputs, unsigned int index)
+
+
+Neuron::Neuron(unsigned int numOutputs, unsigned int index, std::string &transferFcn)
 {
+    cout << "TransferFcn:" << transferFcn << endl;
 
     //std::cout << "Created a neuron!" << std::endl;
-_myIndex = index;
+    _myIndex = index;
+     _outputVal = 1;
+    if(transferFcn.compare("purelin") == 0)
+        transferFunction = &transferFunction_purelin;
+    else if(transferFcn.compare("tansig") == 0)
+        transferFunction = &transferFunction_tansig;
+    else
+    {
+        cout << "Warning, could not find " << transferFcn << endl;
+        cout << "Using the default (purelin) transfer function\n" << endl;
+    }
     for(unsigned int c = 0; c < numOutputs; c++)
     {
         _outputWeights.push_back(connection(0.0, 0.0));
@@ -203,10 +227,22 @@ _myIndex = index;
     }
 }
 
-Neuron::Neuron(vector<double> outputWeights, unsigned int index){
+Neuron::Neuron(vector<double> outputWeights, unsigned int index, std::string &transferFcn){
 
+    cout << "TransferFcn:" << transferFcn << endl;
     //std::cout << "Created a neuron!";
     _myIndex = index;
+    _outputVal = 1;
+
+    if(transferFcn.compare("purelin") == 0)
+        transferFunction = &transferFunction_purelin;
+    else if(transferFcn.compare("tansig") == 0)
+        transferFunction = &transferFunction_tansig;
+    else
+    {
+        cout << "Warning, could not find " << transferFcn << endl;
+        cout << "Using the default (purelin) transfer function\n" << endl;
+    }
 
     for(vector<double>::iterator it = outputWeights.begin(); it != outputWeights.end(); it++)
     {
@@ -222,6 +258,7 @@ void Neuron::feedForward(Layer &previousLayer)
 
     for(unsigned int n = 0; n < previousLayer.size(); n++)
     {
+        //cout << previousLayer[n].getOutputVal() << " * " << previousLayer[n].getOutputWeight(_myIndex) << endl;
         sum += previousLayer[n].getOutputVal() *
                 previousLayer[n].getOutputWeight(_myIndex);
     }
@@ -229,14 +266,20 @@ void Neuron::feedForward(Layer &previousLayer)
     _outputVal = transferFunction(sum);
 }
 
-double Neuron::transferFunction(double val)
+double Neuron::transferFunction_tansig(double val)
 {
+    //cout << "tansig: " << val << endl;
     // From the myNeuralNetwork function generated by matlab
     return (2.0 / ( 1.0 + exp(-2.0 * val)) - 1);
 }
 
+double Neuron::transferFunction_purelin(double val)
+{
+    //cout << "purelin: " << val << endl;
+    return val;
+}
 
-void NeuralNet::mapMinMax_apply(vector<double> &inputVector)
+void NeuralNet::mapMinMax_apply(vector<double> &inputVector) const
 {
     // I am assuming everying is in order
 
@@ -246,7 +289,7 @@ void NeuralNet::mapMinMax_apply(vector<double> &inputVector)
     }
 }
 
-void NeuralNet::mapMinMax_reverse(vector<double> &outputVector)
+void NeuralNet::mapMinMax_reverse(vector<double> &outputVector) const
 {
 
 

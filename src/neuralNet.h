@@ -40,8 +40,8 @@ private:
     vector<double> _outputGain;
     double _outputYmin;
 
-    void mapMinMax_apply(vector<double> &inputVector);
-    void mapMinMax_reverse(vector<double> &outputVector);
+    void mapMinMax_apply(vector<double> &inputVector) const;
+    void mapMinMax_reverse(vector<double> &outputVector) const;
 
 };
 
@@ -56,9 +56,8 @@ struct connection
 class Neuron
 {
 public:
-    Neuron(unsigned int numOutputs, unsigned int index);
-
-    Neuron(vector<double> outputWeights, unsigned int index);
+    Neuron(unsigned int numOutputs, unsigned int index, std::string &transferFcn);
+    Neuron(vector<double> outputWeights, unsigned int index, std::string &transferFcn);
 
 
     void feedForward(Layer &previousLayer);
@@ -71,7 +70,10 @@ private:
     double _outputVal;
     vector<connection> _outputWeights;
     unsigned int _myIndex;
-    static double transferFunction(double val);
+    double (*transferFunction)(double);
+
+    static double transferFunction_tansig(double val);
+    static double transferFunction_purelin(double val);
 
 
 
