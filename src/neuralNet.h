@@ -20,7 +20,7 @@ class NeuralNet
 {
 public:
     NeuralNet(Property &modelConfig);
-    void feedForward(vector<double> &input);
+    void feedForward(vector<double> input);
     void getResults(vector<double> &results) const;
 
 

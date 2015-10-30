@@ -170,9 +170,15 @@ void NeuralNet::getResults(vector<double> &results) const
     mapMinMax_reverse(results);
 }
 
-void NeuralNet::feedForward(vector<double> &input)
+void NeuralNet::feedForward(vector<double> input)
 {
-    assert(input.size() == _layers.at(0).size() - 1); // -1 for the bias node
+    // The input size should be, at least, equal to the size of the neural network's
+    // input. I am allowing larger than the size of the input, but they will be ignored.
+    // It makes it a little flexible, I can call it for normal tax input and taxPos input
+    // TODO: check if it is a good idea to not give people a warning
+
+    //cout << "inputSize: " << input.size() << " Layer: " << _layers.at(0).size() - 1 << endl;
+    assert(input.size() >= _layers.at(0).size() - 1); // -1 for the bias node
 
 
     mapMinMax_apply(input);
@@ -189,12 +195,13 @@ void NeuralNet::feedForward(vector<double> &input)
     for (unsigned int layerNum = 1; layerNum < _layers.size(); layerNum++)
     {
 
-       // cout << "Layer: " << layerNum << endl;
+        //cout << "Layer: " << layerNum << endl;
         Layer &previousLayer = _layers[layerNum - 1];
 
 
         for (unsigned int neuronNum = 0; neuronNum < _layers[layerNum].size()-1; neuronNum++)
         {
+            //cout << "Neuron: " << neuronNum << endl;
             _layers[layerNum][neuronNum].feedForward(previousLayer);
         }
     }

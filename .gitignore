@@ -31,3 +31,4 @@
 *.*~
 build
 CMakeLists.txt.user
+*.csv

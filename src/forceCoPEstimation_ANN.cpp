@@ -25,28 +25,33 @@ ForceCoPEstimation_ANN::ForceCoPEstimation_ANN(yarp::os::ResourceFinder &rf)
 void ForceCoPEstimation_ANN::onRead(yarp::os::Bottle &tactileBottle)
 {
     // Tactile data is available
-
-    //cout << "incoming data:" << tactileBottle.size() <<    endl;
-
     for(fingertipList_t::iterator it = _fingertip_list.begin(); it != _fingertip_list.end(); it++)
     {
-
-        // For each fingetip calculate the cop and force
-
-        vector<double> input;
-        for(int i = it->startIndex; i < it->startIndex + 12; i++)
-            input.push_back(tactileBottle.get(i).asDouble());
-
-
-
-        //it->model_CoP->feedForward(input);
-        it->model_force->feedForward(input);
 
         vector<double> cop;
         vector<double> force;
 
-        //it->model_CoP->getResults(cop);
-        it->model_force->getResults(cop);
+        // For each fingetip calculate the cop and force
+        // There are 12 taxels per fingure.
+        vector<double> featureVector;
+        for(int i = it->startIndex; i < it->startIndex + 12; i++)
+            featureVector.push_back(tactileBottle.get(i).asDouble());
+
+
+
+        //it->model_CoP->feedForward(input);
+        it->model_CoP->feedForward(featureVector);
+        it->model_CoP->getResults(cop);
+
+        // Add the position estimate to the taxel data
+        // Also the position data is scaled by 10000 to make it comparable with force data
+        for (vector<double>::iterator it_cop = cop.begin(); it_cop != cop.end(); it_cop++)
+        {
+            featureVector.push_back((*it_cop) * 10000); // The scale factor
+        }
+
+        it->model_force->feedForward(featureVector);
+        it->model_force->getResults(force);
 
         // Publish the data
 
