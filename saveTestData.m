@@ -23,7 +23,7 @@ for nSession = 5%minSession:maxSession
     %load(fileName);
     csvwrite(sprintf('Xte_%02d.csv', nSession - minSession + 1), inputTesting(xStart:xEnd,:));
     
-    for featType = 2%1:4
+    for featType = 4%1:4
         % Load the position estimation data
         load(sprintf('%s/Learning_all/learnedPolicy_ANN/session%02d_ANN_type_%d.mat', expDir, nSession, 1));
         pred = net(inputTesting') * 10000;
@@ -31,11 +31,11 @@ for nSession = 5%minSession:maxSession
         load(sprintf('%s/Learning_all/learnedPolicy_ANN/session%02d_ANN_type_%d.mat', expDir, nSession, featType));
         inputTesting_force = [inputTesting pred'];
         
-        eval(sprintf('pred = net(%s'');', featInputList{featType})); %pred = net(inputTesting');
+        eval(sprintf('pred = netNT(%s'');', featInputList{featType})); %pred = net(inputTesting');
         pred = pred';
         
         csvwrite(sprintf('yte_%s_%02d.csv', featTypeList{featType}, nSession - minSession + 1), pred(xStart:xEnd,:));
-        net2file(sprintf('ANN_%s_%02d.ini', featTypeList{featType}, nSession-minSession+1), net);
-        %genFunction(net, 'myNeuralNetworkFunction.m');
+        net2file(sprintf('ANN_%s_%02d.ini', featTypeList{featType}, nSession-minSession+1), netNT);
+        genFunction(netNT, 'myNeuralNetworkFunction.m');
     end
 end

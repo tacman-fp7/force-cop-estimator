@@ -5,6 +5,7 @@
 #include <yarp/os/Bottle.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 namespace tacman
 {
@@ -209,11 +210,45 @@ void NeuralNet::feedForward(vector<double> input)
 
 }
 
+void NeuralClassifier::getResults(vector<double> &results) const
+{
+  //cout << "The right one called" <<endl;
+  double max = _layers.back().begin()->getOutputVal();
+  for(vector<Neuron>::const_iterator it = _layers.back().begin();
+      it != (--_layers.back().end()); it ++) // The last neuron is the bias neuron
+  {
+
+      if(it->getOutputVal() > max)
+          max = it->getOutputVal();
+      //results.push_back(it->getOutputVal());
+  }
+
+
+  double denom = 0;
+  for(vector<Neuron>::const_iterator it = _layers.back().begin();
+      it != (--_layers.back().end()); it ++) // The last neuron is the bias neuron
+  {
+      results.push_back(std::exp(it->getOutputVal() - max));
+      denom += results.back();
+  }
+  if (denom == 0)
+      denom = 1;
+
+  for(vector<double>::iterator it = results.begin();
+      it != results.end(); it ++)
+  {
+    *it = *it/denom;
+  }
+
+
+
+}
+
 
 
 Neuron::Neuron(unsigned int numOutputs, unsigned int index, std::string &transferFcn)
 {
-    cout << "TransferFcn:" << transferFcn << endl;
+    //cout << "TransferFcn:" << transferFcn << endl;
 
     //std::cout << "Created a neuron!" << std::endl;
     _myIndex = index;
@@ -236,7 +271,7 @@ Neuron::Neuron(unsigned int numOutputs, unsigned int index, std::string &transfe
 
 Neuron::Neuron(vector<double> outputWeights, unsigned int index, std::string &transferFcn){
 
-    cout << "TransferFcn:" << transferFcn << endl;
+    //cout << "TransferFcn:" << transferFcn << endl;
     //std::cout << "Created a neuron!";
     _myIndex = index;
     _outputVal = 1;

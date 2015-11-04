@@ -30,6 +30,7 @@ void ForceCoPEstimation_ANN::onRead(yarp::os::Bottle &tactileBottle)
 
         vector<double> cop;
         vector<double> force;
+        vector<double> activeTaxels;
 
         // For each fingetip calculate the cop and force
         // There are 12 taxels per fingure.
@@ -43,6 +44,10 @@ void ForceCoPEstimation_ANN::onRead(yarp::os::Bottle &tactileBottle)
         it->model_CoP->feedForward(featureVector);
         it->model_CoP->getResults(cop);
 
+        it->model_activeTaxel->feedForward(featureVector);
+        it->model_activeTaxel->getResults(activeTaxels);
+
+
         // Add the position estimate to the taxel data
         // Also the position data is scaled by 10000 to make it comparable with force data
         for (vector<double>::iterator it_cop = cop.begin(); it_cop != cop.end(); it_cop++)
@@ -53,6 +58,8 @@ void ForceCoPEstimation_ANN::onRead(yarp::os::Bottle &tactileBottle)
         it->model_force->feedForward(featureVector);
         it->model_force->getResults(force);
 
+
+
         // Publish the data
 
         Bottle &forceCoP_out = it->dataPort->prepare();
@@ -62,6 +69,9 @@ void ForceCoPEstimation_ANN::onRead(yarp::os::Bottle &tactileBottle)
 
         for (int i = 0; i < force.size(); i++)
             forceCoP_out.addDouble(force.at(i));
+
+        for (int i = 0; i < activeTaxels.size(); i++)
+            forceCoP_out.addDouble(activeTaxels.at(i));
 
 
         cout << forceCoP_out.toString() << endl;
@@ -134,6 +144,12 @@ bool ForceCoPEstimation_ANN::init(ResourceFinder &rf)
         modelConf.fromConfigFile(fingertip.modelFile_force);
         fingertip.model_force = new tacman::NeuralNet(modelConf);
 
+
+        fingertip.modelFile_activeTaxel = rf.findFileByName(subPart.find("model_activeTaxel").asString());
+
+        modelConf.clear();
+        modelConf.fromConfigFile(fingertip.modelFile_activeTaxel);
+        fingertip.model_activeTaxel = new tacman::NeuralClassifier(modelConf);
 
         // Open the port to publish CoP and force
         fingertip.dataPort = new BufferedPort<Bottle>();

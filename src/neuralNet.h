@@ -21,10 +21,10 @@ class NeuralNet
 public:
     NeuralNet(Property &modelConfig);
     void feedForward(vector<double> input);
-    void getResults(vector<double> &results) const;
+    virtual void getResults(vector<double> &results) const;
 
 
-private:
+protected:
     // Neural net is a vector of layers
     vector<Layer> _layers; //_layers[layerNum][neuronNum]
     // The layers are connected
@@ -53,6 +53,16 @@ struct connection
     double deltaWeight;
 };
 
+class NeuralClassifier: public NeuralNet
+{
+public:
+    NeuralClassifier(Property &modelConfig): NeuralNet(modelConfig){}
+
+    static double transferFunction_softmax(double val);
+    virtual void getResults(vector<double> &results) const;
+
+};
+
 class Neuron
 {
 public:
@@ -74,6 +84,7 @@ private:
 
     static double transferFunction_tansig(double val);
     static double transferFunction_purelin(double val);
+
 
 
 

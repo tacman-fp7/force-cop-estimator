@@ -19,9 +19,12 @@ struct fingertip
     string fingerName;
     string modelFile_CoP;
     string modelFile_force;
+    string modelFile_activeTaxel;
     BufferedPort<Bottle> *dataPort;
     tacman::NeuralNet *model_CoP;
     tacman::NeuralNet *model_force;
+    tacman::NeuralClassifier *model_activeTaxel;
+
 };
 
 typedef struct fingertip fingertip_t;
