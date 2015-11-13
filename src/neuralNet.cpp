@@ -171,6 +171,11 @@ void NeuralNet::getResults(vector<double> &results) const
     mapMinMax_reverse(results);
 }
 
+int NeuralNet::getInputSize() const
+{
+    return (_layers.at(0).size() - 1);
+}
+
 void NeuralNet::feedForward(vector<double> input)
 {
     // The input size should be, at least, equal to the size of the neural network's

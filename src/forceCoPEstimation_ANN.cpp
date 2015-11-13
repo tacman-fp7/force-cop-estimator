@@ -48,13 +48,19 @@ void ForceCoPEstimation_ANN::onRead(yarp::os::Bottle &tactileBottle)
         it->model_activeTaxel->getResults(activeTaxels);
 
 
+        // Only add the position data if the model is for more than
+        // 12 inputs
+        if(it->model_force->getInputSize() > featureVector.size())
+        {
+
+
         // Add the position estimate to the taxel data
         // Also the position data is scaled by 10000 to make it comparable with force data
         for (vector<double>::iterator it_cop = cop.begin(); it_cop != cop.end(); it_cop++)
         {
             featureVector.push_back((*it_cop) * 10000); // The scale factor
         }
-
+}
         it->model_force->feedForward(featureVector);
         it->model_force->getResults(force);
 
@@ -70,11 +76,21 @@ void ForceCoPEstimation_ANN::onRead(yarp::os::Bottle &tactileBottle)
         for (int i = 0; i < force.size(); i++)
             forceCoP_out.addDouble(force.at(i));
 
+        int maxTaxel = 0;
+        double maxTaxelProb = 0;
         for (int i = 0; i < activeTaxels.size(); i++)
+        {
+            if(maxTaxelProb < activeTaxels.at(i))
+            {
+                maxTaxelProb = activeTaxels.at(i);
+                maxTaxel = i;
+            }
             forceCoP_out.addDouble(activeTaxels.at(i));
+        }
 
 
-        cout << forceCoP_out.toString() << endl;
+        cout << "Active taxel: " << maxTaxel + 1 << endl;
+        //cout << forceCoP_out.toString() << endl;
         it->dataPort->write(true);
         it->dataPort->waitForWrite();
 

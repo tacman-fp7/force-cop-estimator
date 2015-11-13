@@ -22,7 +22,7 @@ public:
     NeuralNet(Property &modelConfig);
     void feedForward(vector<double> input);
     virtual void getResults(vector<double> &results) const;
-
+    int getInputSize() const;
 
 protected:
     // Neural net is a vector of layers
