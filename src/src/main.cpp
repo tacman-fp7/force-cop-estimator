@@ -2,7 +2,7 @@
  * Force and CoP reconstruction
  **/
 
-#include "forceCoPEstimation_ANN.h"
+#include <forceCoPEstimation_ANN.h>
 #include "neuralNet.h"
 #include <yarp/os/ResourceFinder.h>
 #include <yarp/os/Network.h>
@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
 
      //tacman::NeuralNet myNet(rf);
 
-    tacman::ForceCoPEstimation* forceCoPEstimator = new tacman::ForceCoPEstimation_ANN(rf);
+    tacman::ForceCoPEstimator* forceCoPEstimator = new tacman::ForceCoPEstimation_ANN(rf);
 
 
     forceCoPEstimator->useCallback();

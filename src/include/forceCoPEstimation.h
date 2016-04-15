@@ -3,7 +3,7 @@
 #include <yarp/os/Bottle.h>
 #include <yarp/os/ResourceFinder.h>
 #include <list>
-
+#include <forceCoPController.h>
 
 namespace tacman
 {
@@ -20,22 +20,25 @@ using std::list;
 
 
 
-class ForceCoPEstimation: public BufferedPort<Bottle> // Event based buffered port
+class ForceCoPEstimator: public forceCoPController, public BufferedPort<Bottle> // Event based buffered port
 {
 public:
-    //ForceCoPEstimation(){}
-    ForceCoPEstimation(ResourceFinder& rf);
+    ForceCoPEstimator(ResourceFinder& rf);
 
     // Processs the fingertip data
     virtual void onRead(Bottle& tactileBottle);
+    virtual void trainModel(){}
+    bool train();
+    bool quit();
 
 private:
     bool init(ResourceFinder& rf);
 
 protected:
     string _dataDir;
-    string _robotName;
-//    list< fingertip_t > _fingertip_list;
+    string _whichRobot;
+    string _whichHand;
+    string _whichFinger;
 
 };
 

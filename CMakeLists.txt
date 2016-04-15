@@ -1,34 +1,37 @@
 cmake_minimum_required(VERSION 2.8.9)
 
-set(PROJECTNAME forceCoPEstimation)
+set(PROJECTNAME force-cop-estimator)
 project(${PROJECTNAME})
 
+set(CMAKE_INSTALL_PREFIX $ENV{ICUBcontrib_DIR})
+
+
 find_package(YARP REQUIRED)
-
+list(APPEND CMAKE_MODULE_PATH ${YARP_MODULE_PATH})
+add_definitions(${YARP_DEFINES}) # add yarp definitions - this contains also -D_REENTRANT
 include_directories(${YARP_INCLUDE_DIRS})
+include(YarpInstallationHelpers)
+include(YarpIDL)
 
 
-set(HEADERS src/forceCoPEstimation.h src/forceCoPEstimation_ANN.h src/neuralNet.h)
+find_package(Gurls REQUIRED)
+include_directories(${Gurls_INCLUDE_DIRS})
 
-set(SOURCES  src/main.cpp src/forceCoPEstimation.cpp src/forceCoPEstimation_ANN.cpp src/neuralNet.cpp ${HEADERS})
-
-set(CONTEXT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/bin/context" CACHE PATH "Path to the context files")
-set( CMAKE_BUILD_TYPE Debug CACHE STRING
-       "Choose the type of build, options are: None Debug Release RelWithDebInfo
-MinSizeRel." FORCE )
-
-
-
-
-add_executable(${PROJECTNAME} ${SOURCES})
-
-target_link_libraries(${PROJECTNAME} ${YARP_LIBRARIES})
-
-install(TARGETS ${PROJECTNAME} DESTINATION ./bin)
+find_package(ICUBcontrib)
+list(APPEND CMAKE_MODULE_PATH ${ICUBCONTRIB_MODULE_PATH})
+include(ICUBcontribHelpers)
+include(ICUBcontribOptions)
+icubcontrib_set_default_prefix()
+icubcontrib_add_uninstall_target()
 
 
-install(DIRECTORY ./contexts/
-  DESTINATION ./contexts/${PROJECTNAME}/)
+
+subdirs(app)
+subdirs(src)
+
+
+
+
 
 
 

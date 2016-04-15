@@ -1,0 +1,39 @@
+include_directories(./include/)
+
+set(HEADERS include/forceCoPEstimation.h include/forceCoPEstimation_ANN.h include/neuralNet.h include/forceCoPController.h)
+
+set(SOURCES  src/main.cpp src/forceCoPEstimation.cpp src/forceCoPEstimation_ANN.cpp src/neuralNet.cpp
+ src/forceCoPController.cpp ${HEADERS})
+
+set(CONTEXT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/bin/context" CACHE PATH "Path to the context files")
+set( CMAKE_BUILD_TYPE Debug CACHE STRING
+       "Choose the type of build, options are: None Debug Release RelWithDebInfo
+MinSizeRel." FORCE )
+
+
+
+###################################################################
+# Generate source from Apache Thrift Interface Definition Language
+###################################################################
+set(generated_libs_dir "${CMAKE_CURRENT_SOURCE_DIR}")
+yarp_idl_to_dir(force-cop-estimator-control.thrift ${generated_libs_dir} ${SOURCES} ${HEADERS} ${INCLUDE_DIRS})
+
+include(force_cop_estimator_control_thrift.cmake)
+
+
+
+
+add_executable(${PROJECTNAME} ${SOURCES})
+
+target_link_libraries(${PROJECTNAME} ${YARP_LIBRARIES})
+
+
+if(WIN32)
+    install(TARGETS ${PROJECT_NAME} DESTINATION bin/${CMAKE_BUILD_TYPE})
+else(WIN32)
+    install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+endif(WIN32)
+
+
+
+

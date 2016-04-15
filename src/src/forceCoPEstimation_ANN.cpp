@@ -16,7 +16,7 @@ using yarp::os::Property;
 
 
 ForceCoPEstimation_ANN::ForceCoPEstimation_ANN(yarp::os::ResourceFinder &rf)
-    : ForceCoPEstimation(rf)
+    : ForceCoPEstimator(rf)
 {
 
     init(rf);

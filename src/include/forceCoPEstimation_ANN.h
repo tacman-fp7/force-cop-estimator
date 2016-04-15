@@ -32,7 +32,7 @@ typedef vector<fingertip_t> fingertipList_t;
 
 using yarp::os::ResourceFinder;
 
-class ForceCoPEstimation_ANN: public ForceCoPEstimation
+class ForceCoPEstimation_ANN: public ForceCoPEstimator
 {
 public:
     ForceCoPEstimation_ANN(ResourceFinder& rf);
