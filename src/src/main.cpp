@@ -9,6 +9,7 @@
 #include <yarp/os/Network.h>
 #include <iostream>
 #include <cstdlib>
+#include <yarp/os/Value.h>
 
 
 using std::cout;
@@ -24,25 +25,57 @@ int main(int argc, char* argv[])
     rf.setDefaultContext("force-cop-estimator");
     rf.configure(argc, argv);
 
-    cout << "Initialising the module" << endl;
+    string whichMethod;
+
+
+    whichMethod = rf.check("whichMethod", yarp::os::Value("no-method")).asString();
+
+    cout << "Initialising the module..." <<endl;
 
 
 
-    //tacman::ForceCoPEstimator* forceCoPEstimator = new tacman::ForceCoPEstimation_ANN(rf);
-    tacman::ForceCoPEstimator* forceCoPEstimator = new tacman::ForceReconstruction(rf);
+    tacman::ForceCoPEstimator* forceCoPEstimator = NULL;
+    if(whichMethod.compare("gp-force") == 0){
+        cout << "gp-force...";
+        forceCoPEstimator = new tacman::ForceReconstruction(rf);
+        cout << "done!" << endl;
+    }
+    else if(whichMethod.compare("gp-cop") == 0){
+        cout << "gp-cop...";
 
-    //forceCoPEstimator->useCallback();
-    //forceCoPEstimator->open("/tempForceCoPEstimation");
+        cout << "done!" << endl;
+    }
+    else if(whichMethod.compare("ann-posTax") == 0){
+        cout << "ann-posTax...";
+        forceCoPEstimator = new tacman::ForceCoPEstimation_ANN(rf);
+        cout << "done!" << endl;
+
+    }
+    else if(whichMethod.compare("ann-tax") == 0){
+        cout << "ann-tax...";
+        forceCoPEstimator = new tacman::ForceCoPEstimation_ANN(rf);
+        cout << "done!" << endl;
+
+    }
+    else{
+        cout << "undefined method ( " << whichMethod << " )" << endl;
+    }
 
 
-    //forceCoPEstimator->waitForWrite();
+    if(forceCoPEstimator != NULL){
+        forceCoPEstimator->runModule(rf);
 
-    //yarp::os::Network::connect("/icub/skin/left_hand_comp", "/tempForceCoPEstimation");
+        delete(forceCoPEstimator);
+        forceCoPEstimator = NULL;
+    }
+    else{
+        cout << "failed!" << endl;
+    }
 
-    return forceCoPEstimator->runModule(rf);
 
-   // while(true)
-   //     ;
+    return 0;
 
-    //return EXIT_SUCCESS;
+
+
+
 }

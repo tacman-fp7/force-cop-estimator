@@ -25,8 +25,8 @@ ForceCoPEstimation_ANN::ForceCoPEstimation_ANN(yarp::os::ResourceFinder &rf)
 void ForceCoPEstimation_ANN::onRead(yarp::os::Bottle &tactileBottle)
 {
     // Tactile data is available
-    for(fingertipList_t::iterator it = _fingertip_list.begin(); it != _fingertip_list.end(); it++)
-    {
+    //for(fingertipList_t::iterator it = _fingertip_list.begin(); it != _fingertip_list.end(); it++)
+    //{
 
         vector<double> cop;
         vector<double> force;
@@ -35,22 +35,23 @@ void ForceCoPEstimation_ANN::onRead(yarp::os::Bottle &tactileBottle)
         // For each fingetip calculate the cop and force
         // There are 12 taxels per fingure.
         vector<double> featureVector;
-        for(int i = it->startIndex; i < it->startIndex + 12; i++)
+
+        for(int i = fingertip.startIndex; i < fingertip.startIndex + 12; i++)
             featureVector.push_back(tactileBottle.get(i).asDouble());
 
 
 
         //it->model_CoP->feedForward(input);
-        it->model_CoP->feedForward(featureVector);
-        it->model_CoP->getResults(cop);
+        fingertip.model_CoP->feedForward(featureVector);
+        fingertip.model_CoP->getResults(cop);
 
-        it->model_activeTaxel->feedForward(featureVector);
-        it->model_activeTaxel->getResults(activeTaxels);
+        fingertip.model_activeTaxel->feedForward(featureVector);
+        fingertip.model_activeTaxel->getResults(activeTaxels);
 
 
         // Only add the position data if the model is for more than
         // 12 inputs
-        if(it->model_force->getInputSize() > featureVector.size())
+        if(fingertip.model_force->getInputSize() > featureVector.size())
         {
 
 
@@ -61,14 +62,14 @@ void ForceCoPEstimation_ANN::onRead(yarp::os::Bottle &tactileBottle)
             featureVector.push_back((*it_cop) * 10000); // The scale factor
         }
 }
-        it->model_force->feedForward(featureVector);
-        it->model_force->getResults(force);
+        fingertip.model_force->feedForward(featureVector);
+        fingertip.model_force->getResults(force);
 
 
 
         // Publish the data
 
-        Bottle &forceCoP_out = it->dataPort->prepare();
+        Bottle &forceCoP_out = fingertip.dataPort->prepare();
         forceCoP_out.clear();
         for (int i = 0; i < cop.size(); i++)
             forceCoP_out.addDouble(cop.at(i));
@@ -91,13 +92,13 @@ void ForceCoPEstimation_ANN::onRead(yarp::os::Bottle &tactileBottle)
 
         cout << "Active taxel: " << maxTaxel + 1 << endl;
         //cout << forceCoP_out.toString() << endl;
-        it->dataPort->write(true);
-        it->dataPort->waitForWrite();
+        fingertip.dataPort->write(true);
+        fingertip.dataPort->waitForWrite();
 
 
 
 
-    }
+    //}
 
 
 }
@@ -106,30 +107,18 @@ bool ForceCoPEstimation_ANN::init(ResourceFinder &rf)
 {
 
 
-    string moduleName = rf.check("moduleName", Value("forceCoPEstimation"),
+    string moduleName = rf.check("moduleName", Value("forceCoPEstimation_ann"),
                                  "module name (string)").asString();
 
-    Bottle& bodyParts = rf.findGroup("BodyPart");
-    if(bodyParts.isNull())
-    {
-        cerr << "No body fingertips defined" << endl;
-        return false;
-    }
+
+        //fingertip_t fingertip;
 
 
-
-    int nBodyParts = bodyParts.size() -1; // The first element is the group name
-    cout << "Number of fingertips: " << nBodyParts << endl;
-
-
-    for (int i = 0; i < nBodyParts; i++)
-    {
-
-        fingertip_t fingertip;
+        //Bottle& subPart = rf.findGroup(bodyParts.get(i+1).asString());
+        //fingertip.fingerName = subPart.find("fingerName").asString();
 
 
-        Bottle& subPart = rf.findGroup(bodyParts.get(i+1).asString());
-        fingertip.fingerName = subPart.find("fingerName").asString();
+        fingertip.fingerName = rf.find("fingerName").asString();
 
         if (fingertip.fingerName.empty())
         {
@@ -137,7 +126,7 @@ bool ForceCoPEstimation_ANN::init(ResourceFinder &rf)
             return false;
         }
 
-        fingertip.startIndex = subPart.check("startIndex", Value(-1)).asInt();
+        fingertip.startIndex = rf.check("startIndex", Value(-1)).asInt();
         if(fingertip.startIndex == -1)
         {
 
@@ -145,7 +134,7 @@ bool ForceCoPEstimation_ANN::init(ResourceFinder &rf)
             fingertip.startIndex = 0;
         }
 
-       fingertip.modelFile_CoP = rf.findFileByName(subPart.find("model_CoP").asString());
+       fingertip.modelFile_CoP = rf.findFileByName(rf.find("model_CoP").asString());
 
         // Open it
         Property modelConf;
@@ -153,7 +142,7 @@ bool ForceCoPEstimation_ANN::init(ResourceFinder &rf)
         fingertip.model_CoP = new tacman::NeuralNet(modelConf);
 
 
-        fingertip.modelFile_force = rf.findFileByName(subPart.find("model_force").asString());
+        fingertip.modelFile_force = rf.findFileByName(rf.find("model_force").asString());
 
 
         modelConf.clear();
@@ -161,7 +150,7 @@ bool ForceCoPEstimation_ANN::init(ResourceFinder &rf)
         fingertip.model_force = new tacman::NeuralNet(modelConf);
 
 
-        fingertip.modelFile_activeTaxel = rf.findFileByName(subPart.find("model_activeTaxel").asString());
+        fingertip.modelFile_activeTaxel = rf.findFileByName(rf.find("model_activeTaxel").asString());
 
         modelConf.clear();
         modelConf.fromConfigFile(fingertip.modelFile_activeTaxel);
@@ -171,19 +160,19 @@ bool ForceCoPEstimation_ANN::init(ResourceFinder &rf)
         fingertip.dataPort = new BufferedPort<Bottle>();
 
         fingertip.dataPort->open("/" + moduleName + "/" + fingertip.fingerName);
-        _fingertip_list.push_back(fingertip);
+        //_fingertip_list.push_back(fingertip);
 
-    }
+//    }
 
 
-    for (fingertipList_t::iterator it = _fingertip_list.begin(); it != _fingertip_list.end(); it++)
-    {
+//    for (fingertipList_t::iterator it = _fingertip_list.begin(); it != _fingertip_list.end(); it++)
+//    {
 
-        cout << "Finger Name: " << it->fingerName << endl;
-        cout << "Starting index: " << it->startIndex << endl;
-        cout << "Model file (CoP): " << it->modelFile_CoP << endl << endl;
-        cout << "Model file (force): " << it->modelFile_force << endl << endl;
-    }
+        cout << "Finger Name: " << fingertip.fingerName << endl;
+        cout << "Starting index: " << fingertip.startIndex << endl;
+        cout << "Model file (CoP): " << fingertip.modelFile_CoP << endl << endl;
+        cout << "Model file (force): " << fingertip.modelFile_force << endl << endl;
+//    }
 
     return true;
 }

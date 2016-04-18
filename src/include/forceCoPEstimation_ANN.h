@@ -27,6 +27,7 @@ struct fingertip
 
 };
 
+
 typedef struct fingertip fingertip_t;
 typedef vector<fingertip_t> fingertipList_t;
 
@@ -40,7 +41,8 @@ public:
 
 private:
     bool init(ResourceFinder& rf);
-    fingertipList_t _fingertip_list;
+    //fingertipList_t _fingertip_list;
+    fingertip_t fingertip;
 
 };
 
