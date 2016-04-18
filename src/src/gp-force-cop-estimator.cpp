@@ -1,6 +1,6 @@
 
 
-#include "forcereconstruction.h"
+#include "gp-force-cop-estimator.h"
 #include <iostream>
 #include <string>
 #include <gurls++/gprwrapper.h>
@@ -26,6 +26,7 @@ namespace tacman {
 // Create a ForceReconstruction object for bodypart.
 // partName:
 ForceReconstruction::ForceReconstruction(yarp::os::ResourceFinder &rf)
+: ForceCoPEstimator(rf)
 {
     _gpOpts = NULL;
 
@@ -33,7 +34,7 @@ ForceReconstruction::ForceReconstruction(yarp::os::ResourceFinder &rf)
     {
         cerr << "ForceReconstruction: failed to initialise." << endl;
     }
-};
+}
 
 // Initialise the module
 bool ForceReconstruction::init(yarp::os::ResourceFinder &rf)

@@ -1,14 +1,28 @@
-include_directories(./include/)
 
-set(HEADERS include/forceCoPEstimation.h include/forceCoPEstimation_ANN.h include/neuralNet.h include/forceCoPController.h)
+find_package(Gurls REQUIRED)
+include_directories(
+${Gurls_INCLUDE_DIRS}
+./include/)
 
-set(SOURCES  src/main.cpp src/forceCoPEstimation.cpp src/forceCoPEstimation_ANN.cpp src/neuralNet.cpp
- src/forceCoPController.cpp ${HEADERS})
+set(HEADERS
+include/forceCoPEstimation.h
+include/forceCoPEstimation_ANN.h
+include/neuralNet.h
+include/forceCoPController.h
+include/gp-force-cop-estimator.h)
 
-set(CONTEXT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/bin/context" CACHE PATH "Path to the context files")
-set( CMAKE_BUILD_TYPE Debug CACHE STRING
-       "Choose the type of build, options are: None Debug Release RelWithDebInfo
-MinSizeRel." FORCE )
+set(SOURCES
+src/main.cpp
+src/forceCoPEstimation.cpp
+src/forceCoPEstimation_ANN.cpp
+src/neuralNet.cpp
+src/forceCoPController.cpp
+src/gp-force-cop-estimator.cpp
+${HEADERS})
+
+#set(CONTEXT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/bin/context" CACHE PATH "Path to the context files")
+set(CMAKE_BUILD_TYPE Debug CACHE STRING
+       "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE )
 
 
 
@@ -25,7 +39,7 @@ include(force_cop_estimator_control_thrift.cmake)
 
 add_executable(${PROJECTNAME} ${SOURCES})
 
-target_link_libraries(${PROJECTNAME} ${YARP_LIBRARIES})
+target_link_libraries(${PROJECTNAME} ${YARP_LIBRARIES} ${Gurls_LIBRARIES})
 
 
 if(WIN32)

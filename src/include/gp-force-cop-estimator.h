@@ -10,6 +10,8 @@
 #include <gurls++/wrapper.h>
 #include <gurls++/gprwrapper.h>
 #include <gurls++/gmat2d.h>
+#include "forceCoPEstimation.h"
+
 
 using yarp::os::Bottle;
 using yarp::os::BufferedPort;
@@ -18,7 +20,7 @@ using std::string;
 using gurls::gMat2D;
 
 namespace tacman {
-class ForceReconstruction: public BufferedPort<Bottle>
+class ForceReconstruction: public ForceCoPEstimator//BufferedPort<Bottle>
 {
 public:
 

@@ -3,6 +3,7 @@
 #include "forceCoPEstimation.h"
 #include <yarp/os/Value.h>
 #include <iostream>
+#include <yarp/os/Network.h>
 
 namespace tacman {
 
@@ -12,9 +13,49 @@ using std::cerr;
 using std::endl;
 
 
+bool ForceCoPEstimator::attach(yarp::os::Port &source)
+{
+
+  return this->yarp().attachAsServer(source);
+
+}
+
+bool ForceCoPEstimator::configure(yarp::os::ResourceFinder &rf)
+{
+
+    string robotName;
+    string whichHand;
+
+    robotName = rf.check("robotName", Value("icubSim")).asString();
+    whichHand = rf.check("whichHand", Value("right")).asString();
+
+
+    useCallback();
+    open("/tempForceCoPEstimation");
+
+
+    //forceCoPEstimator->waitForWrite();
+
+    yarp::os::Network::connect("/" + robotName + "/skin/" + whichHand + "_hand_comp", "/tempForceCoPEstimation");
+
+
+    _rpcPort_in.open("/cop-force/rpc:i");
+
+    this->attach(_rpcPort_in);
+
+    return true;
+}
+
+bool ForceCoPEstimator::updateModule()
+{
+
+    return true;
+}
+
 bool ForceCoPEstimator::train()
 {
 
+    cout << "Training the model" << endl;
     trainModel();
     return true;
 }
