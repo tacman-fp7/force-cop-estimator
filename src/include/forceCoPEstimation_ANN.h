@@ -20,7 +20,7 @@ struct fingertip
     string modelFile_CoP;
     string modelFile_force;
     string modelFile_activeTaxel;
-    BufferedPort<Bottle> *dataPort;
+    //BufferedPort<Bottle> *dataPort;
     tacman::NeuralNet *model_CoP;
     tacman::NeuralNet *model_force;
     tacman::NeuralClassifier *model_activeTaxel;

@@ -45,7 +45,7 @@ private:
     gurls::GurlsOptionsList* _gpOpts;
     BufferedPort _forceReconstPort;
     int _startIndex;
-std::clock_t _time;
+    std::clock_t _time;
     gurls::GPRWrapper<double>* _gpWrapper;
 
 

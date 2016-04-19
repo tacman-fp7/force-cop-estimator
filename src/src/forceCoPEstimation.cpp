@@ -5,6 +5,7 @@
 #include <iostream>
 #include <yarp/os/Network.h>
 
+
 namespace tacman {
 
 using yarp::os::Value;
@@ -16,32 +17,39 @@ using std::endl;
 bool ForceCoPEstimator::attach(yarp::os::Port &source)
 {
 
-  return this->yarp().attachAsServer(source);
+    return this->yarp().attachAsServer(source);
 
 }
 
 bool ForceCoPEstimator::configure(yarp::os::ResourceFinder &rf)
 {
 
-    string robotName;
-    string whichHand;
+    _whichRobot = rf.check("robotName", Value("unknown")).asString();
+    _whichHand = rf.check("whichHand", Value("unknown")).asString();
+    _whichFinger = rf.check("fingerName", Value("unknown")).asString();
+    _whichMethod = rf.check("whichMethod", Value("unknown")).asString();
 
-    robotName = rf.check("robotName", Value("icubSim")).asString();
-    whichHand = rf.check("whichHand", Value("right")).asString();
-
-
+    RFModule::setName( rf.check("moduleName", Value("force-cop-estimator")).asString().c_str());
     useCallback();
-    open("/tempForceCoPEstimation");
+    open("/" + RFModule::getName() + "/" + _whichMethod + "/" + _whichHand + "_" + _whichFinger +
+         "/tactile:i");
 
 
-    //forceCoPEstimator->waitForWrite();
+    _port_forceCoP_out.open("/" + RFModule::getName() + "/" + _whichMethod + "/" + _whichHand + "_" + _whichFinger +
+                            "/forceCoP:o");
+    _port_acitveTaxelProb_out.open("/" + RFModule::getName() + "/" + _whichMethod + "/" + _whichHand + "_" + _whichFinger +
+                                   "/activeTaxelProb:o");
 
-    yarp::os::Network::connect("/" + robotName + "/skin/" + whichHand + "_hand_comp", "/tempForceCoPEstimation");
 
 
-    _rpcPort_in.open("/cop-force/rpc:i");
+    _rpcPort_in.open("/" + RFModule::getName() + "/" + _whichMethod + "/" + _whichHand + "_" + _whichFinger + "/rpc:i");
 
     this->attach(_rpcPort_in);
+
+
+    yarp::os::Network::connect(
+                "/" + _whichRobot + "/skin/" + _whichHand + "_hand_comp",
+                "/" + RFModule::getName() + "/" + _whichMethod + "/" + _whichHand + "_" + _whichFinger + "/tactile:i");
 
     return true;
 }
@@ -88,7 +96,7 @@ bool ForceCoPEstimator::init(ResourceFinder& rf)
     _dataDir = rf.check("dataDir", Value(""),
                         "data directory (string)").asString();
     _whichRobot = rf.check("robotName", Value("icub"),
-                          "robot name (string)").asString();
+                           "robot name (string)").asString();
 
     Bottle& bodyParts = rf.findGroup("BodyPart");
     if(bodyParts.isNull())

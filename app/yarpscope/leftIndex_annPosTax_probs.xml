@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<portscope rows="1" columns="1" carrier="mcast">
+
+<plot gridx="0"
+          gridy="0"
+          hspan="1"
+          vspan="1"
+          title="Active taxel"
+          size="60"
+          minval="0"
+          maxval="1"
+          bgcolor="LightSlateGrey">
+       <graph remote="/force-cop-estimator/ann-posTax/left_index/activeTaxelProb:o"
+               index="0"
+               color="LightSeaGreen"
+               title="Graph 0"
+               type="lines"
+               size="5" />	
+        <graph remote="/force-cop-estimator/ann-posTax/left_index/activeTaxelProb:o"
+               index="1"
+               color="Red"
+               title="Graph 0"
+               type="lines"
+               size="5" />
+		<graph remote="/force-cop-estimator/ann-posTax/left_index/activeTaxelProb:o"
+               index="2"
+               color="Green"
+               title="Graph 0"
+               type="lines"
+               size="5" />
+		<graph remote="/force-cop-estimator/ann-posTax/left_index/activeTaxelProb:o"
+               index="3"
+               color="Blue"
+               title="Graph 0"
+               type="lines"
+               size="5" />
+		<graph remote="/force-cop-estimator/ann-posTax/left_index/activeTaxelProb:o"
+               index="4"
+               color="Cyan"
+               title="Graph 0"
+               type="lines"
+               size="5" />
+		<graph remote="/force-cop-estimator/ann-posTax/left_index/activeTaxelProb:o"
+               index="5"
+               color="Black"
+               title="Graph 0"
+               type="lines"
+               size="5" />	   
+		<graph remote="/force-cop-estimator/ann-posTax/left_index/activeTaxelProb:o"
+               index="6"
+               color="Red"
+               title="Graph 0"
+               type="lines"
+               size="5" />
+		<graph remote="/force-cop-estimator/ann-posTax/left_index/activeTaxelProb:o"
+               index="7"
+               color="Turquoise"
+               title="Graph 0"
+               type="lines"
+               size="5" />
+		<graph remote="/force-cop-estimator/ann-posTax/left_index/activeTaxelProb:o"
+               index="8"
+               color="SpringGreen"
+               title="Graph 0"
+               type="lines"
+               size="5" />
+		<graph remote="/force-cop-estimator/ann-posTax/left_index/activeTaxelProb:o"
+               index="9"
+               color="SkyBlue"
+               title="Graph 0"
+               type="lines"
+               size="5" />
+		<graph remote="/force-cop-estimator/ann-posTax/left_index/activeTaxelProb:o"
+               index="10"
+               color="Sienna"
+               title="Graph 0"
+               type="lines"
+               size="5" />
+		<graph remote="/force-cop-estimator/ann-posTax/left_index/activeTaxelProb:o"
+               index="11"
+               color="Orange"
+               title="Graph 0"
+               type="lines"
+               size="5" />
+		   
+		</plot>
+
+
+
+
+
+
+    
+   	
+</portscope>

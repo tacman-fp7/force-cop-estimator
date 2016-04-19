@@ -18,7 +18,7 @@ using yarp::os::BufferedPort;
 using std::string;
 using std::list;
 using yarp::os::RFModule;
-
+using yarp::os::Port;
 
 
 
@@ -47,9 +47,14 @@ protected:
     string _whichRobot;
     string _whichHand;
     string _whichFinger;
+    string _whichMethod;
+    BufferedPort<Bottle> _port_forceCoP_out;
+    BufferedPort<Bottle> _port_acitveTaxelProb_out;
 
 private:
-    yarp::os::Port _rpcPort_in;
+    Port _rpcPort_in;
+
+
 
 };
 
