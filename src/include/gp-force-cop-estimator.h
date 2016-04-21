@@ -28,7 +28,7 @@ public:
     ~ForceReconstruction();
 
     // Train the model
-    bool Train(string fingerName);
+    bool train();
     // Processs the fingertip data
     virtual void onRead(Bottle& tactileBottle);
 
@@ -39,21 +39,11 @@ private:
     gMat2D<double>* eval(const gMat2D<double> &X, gMat2D<double> &vars, gurls::GurlsOptionsList *opt);
 
 private:
-    //string _modelDir;
     string _dataDir;
-    string _robotName;
     gurls::GurlsOptionsList* _gpOpts;
-    BufferedPort _forceReconstPort;
     int _startIndex;
     std::clock_t _time;
-    gurls::GPRWrapper<double>* _gpWrapper;
 
-
-
-    gurls::GURLS _gaussianProcess;
-    //gurls::GurlsWrapper<double> *_gurlsWrap;
-
-    //gurls::GPWrapper <double> _gaussianProcess;
 
 };
 

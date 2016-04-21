@@ -7,7 +7,7 @@
 #include <yarp/os/Value.h>
 #include <gurls++/wrapper.h>
 #include <gurls++/kernelrlswrapper.h>
-
+#include <yarp/os/Network.h>
 
 using namespace gurls;
 using std::string;
@@ -26,7 +26,7 @@ namespace tacman {
 // Create a ForceReconstruction object for bodypart.
 // partName:
 ForceReconstruction::ForceReconstruction(yarp::os::ResourceFinder &rf)
-: ForceCoPEstimator(rf)
+    : ForceCoPEstimator(rf)
 {
     _gpOpts = NULL;
 
@@ -43,47 +43,9 @@ bool ForceReconstruction::init(yarp::os::ResourceFinder &rf)
 
     _dataDir = rf.check("dataDir", Value(""),
                         "data directory (string)").asString();
-    _robotName = rf.check("robotName", Value("icub"),
-                          "robot name (string)").asString();
-    string moduleName = rf.check("moduleName", Value("force-reconstruction"),
-                                 "module name (string)").asString();
-
-    //
-    Bottle& bodyParts = rf.findGroup("BodyPart");
-    if(bodyParts.isNull())
-    {
-        cerr << "No body parts defined" << endl;
-        return false;
-    }
 
 
-
-    int nBodyParts = bodyParts.size() -1; // The first element is the group name
-    cout << "Number of body parts: " << nBodyParts << endl;
-
-
-    /*    for (int i = 1; i <= nBodyParts; i++) // The first element is the group name
-    {
-        cout << bodyParts.get(i).toString() << endl;
-
-        // Read the data
-        Bottle& subPart = rf.findGroup(bodyParts.get(i).asString());
-        cout << subPart.toString() << endl;
-    }
-*/
-
-    int i = 1;
-    Bottle& subPart = rf.findGroup(bodyParts.get(i).asString());
-    string fingerName = subPart.find("fingerName").asString();
-
-
-    if (fingerName.empty())
-    {
-        cerr << "No finger defined" << endl;
-        return false;
-    }
-
-    _startIndex = subPart.check("startIndex", Value(-1)).asInt();
+    _startIndex = rf.check("startIndex", Value(-1)).asInt();
     if(_startIndex == -1)
     {
 
@@ -91,8 +53,9 @@ bool ForceReconstruction::init(yarp::os::ResourceFinder &rf)
         _startIndex = 0;
     }
 
-    string modelName = subPart.find("modelName").asString();
+    string modelName = rf.find("modelName").asString();
     string modelFileName = "";
+
 
     if (modelName.empty())
     {
@@ -102,7 +65,8 @@ bool ForceReconstruction::init(yarp::os::ResourceFinder &rf)
     else
     {
 
-        modelFileName = _dataDir + "/models/" + fingerName + "/" + modelName;
+        modelFileName = _dataDir + "/models/" + _whichHand + "_" + _whichFinger + "/" + modelName;
+        cout << "Model filename: " << modelFileName << endl;
         _gpOpts = new GurlsOptionsList(modelFileName + ".bin", false);
         try
         {
@@ -112,105 +76,27 @@ bool ForceReconstruction::init(yarp::os::ResourceFinder &rf)
         catch(...)
         {
 
-            cerr << "failed to load the model file" << endl;
+            cerr << "Warning: failed to load the model file." << endl;
+
             delete(_gpOpts);
-            cerr << "Warning: no model file was provided. Creating empty model" << endl;
-            _gpOpts = new GurlsOptionsList(_dataDir + "/models/" + "defaultFinger", true);
+            return false;
         }
 
-        //OptNumber *n = new OptNumber(0);
-        //if(_gpOpts->hasOpt("todisk"))
-        //{
-
-            //_gpOpts->removeOpt("todisk");
-            //_gpOpts->addOpt("todisk", new OptNumber(0));
-
-
-        //}
-        //else
-        //{
-         //   _gpOpts->addOpt("todisk", n);
-
-
-        //}
-
-       // if(n!=NULL){
-       //delete(n);
-       // n=NULL;}
-
-
-       _gpWrapper = new GPRWrapper<double>(modelFileName);
-
-
-       //////////////////////
-
-/*****
-        _gpWrapper->setKernelType(GPRWrapper<double>::RBF);
-        _gpWrapper->setProblemType(GPRWrapper<double>::REGRESSION);
-        _gpWrapper->setNparams(20);
-        _gpWrapper->setNSigma(25);
-
-******/
-
-/*
-               gMat2D<double> Xtr, Xte, ytr, yte;
-
-               string trainingDataDir = _dataDir + "/trainingData/" + fingerName;
-               string XtrFileName = trainingDataDir + "/Xtr.csv";
-               string XteFileName = trainingDataDir + "/Xte.csv";
-               string ytrFileName = trainingDataDir + "/ytr.csv";
-               string yteFileName = trainingDataDir + "/yte.csv";
-
-               // Load data files
-               std::cout << "Loading data files..." << std::endl;
-               Xtr.readCSV(XtrFileName);
-               Xte.readCSV(XteFileName);
-               ytr.readCSV(ytrFileName);
-               yte.readCSV(yteFileName);
-*/
-               // Initialize model
-              // std::cout << "Training model..." << std::endl;
-               //_gpWrapper->train(Xtr, ytr);
-
-               //_gpWrapper->saveModel(modelFileName + ".bin");
-              /**  _gpWrapper->loadOpt(modelFileName + ".bin");
-
-
-
-                gurls::GurlsOptionsList opt(_gpWrapper->getOpt());
-
-                if(opt.hasOpt("meanX"))
-                    cout << "Has the opt" << endl; **/
-
-                //cout << opt.toString();
-                //_gpWrapper->
-               //cout << _gpOpts->toString() << endl;
-               // _gpWrapper->loadOpt(*_gpOpts);
-
-
-       /////////////////
-      /*  // Trying
-        if (_gpOpts->hasOpt("kernel"))
-        {
-            using  gurls::KernelRLSWrapper;
-
-            _gurlsWrap = new KernelRLSWrapper<double>("evaluation");
-            std::string kernelType = _gpOpts->getOptValue<OptString>("kernel.type");
-            if (kernelType=="rbf")
-                dynamic_cast<KernelRLSWrapper<double>*>(_gurlsWrap)->setKernelType(KernelWrapper<double>::RBF);
-        }
-
-        // end of tyring
-*/
-        _forceReconstPort.open("/" + moduleName + "/" + fingerName + "/force-CoP" );
     }
+
+    yarp::os::Network::connect(
+                "/" + _whichRobot + "/skin/" + _whichHand + "_hand_comp",
+                "/" + RFModule::getName() + "/" + _whichMethod + "/" + _whichHand + "_" + _whichFinger + "/tactile:i");
+
+
+
     return true;
 }
 
 ForceReconstruction::~ForceReconstruction()
 {
 
-    _forceReconstPort.close();
+    //_forceReconstPort.close();
     if(_gpOpts !=NULL)
     {
 
@@ -221,12 +107,17 @@ ForceReconstruction::~ForceReconstruction()
 
 
 
-bool ForceReconstruction::Train(string fingerName)
+bool ForceReconstruction::train()
 {
+
+    cout << "training" << endl;
+
+
+    //setCallbackLock();
 
     gMat2D<double> Xtr, Xte, ytr, yte;
 
-    string trainingDataDir = _dataDir + "/trainingData/" + fingerName;
+    string trainingDataDir = _dataDir + "/trainingData/" + _whichHand + "_" + _whichFinger;
     string XtrFileName = trainingDataDir + "/Xtr.csv";
     string XteFileName = trainingDataDir + "/Xte.csv";
     string ytrFileName = trainingDataDir + "/ytr.csv";
@@ -242,67 +133,102 @@ bool ForceReconstruction::Train(string fingerName)
     ytr.readCSV(ytrFileName);
     yte.readCSV(yteFileName);
 
+
+    ///////////////////////////////////////
+
     // specify the task sequence
     OptTaskSequence *seq = new OptTaskSequence();
-    *seq << "split:ho" << "paramsel:siglamhogpregr" << "kernel:rbf"
-         << "optimizer:rlsgpregr" << "predkernel:traintest" << "pred:gpregr";
+    seq->addTask("split:ho");
+    seq->addTask("paramsel:siglamhogpregr");
+    seq->addTask("kernel:rbf");
+    seq->addTask("optimizer:rlsgpregr");
+    seq->addTask("predkernel:traintest");
+    seq->addTask("pred:gpregr");
+
+
+
 
     GurlsOptionsList * process = new GurlsOptionsList("processes", false);
 
     // defines instructions for training process
-    OptProcess* process1 = new OptProcess();
-    *process1 << GURLS::computeNsave << GURLS::computeNsave <<  GURLS::computeNsave
-              <<  GURLS::computeNsave << GURLS::ignore << GURLS::ignore;
-    process->addOpt("one", process1);
+    OptProcess* processTraining = new OptProcess();
+    *processTraining << GURLS::computeNsave
+                     << GURLS::computeNsave
+                     << GURLS::computeNsave
+                     << GURLS::computeNsave
+                     << GURLS::ignore
+                     << GURLS::ignore;
+    process->addOpt("train", processTraining);
 
     // defines instructions for testing process
-    OptProcess* process2 = new OptProcess();
-    *process2 << GURLS::load << GURLS::load <<  GURLS::load <<  GURLS::load
-              <<GURLS::computeNsave << GURLS::computeNsave;
+    OptProcess* processEval = new OptProcess();
+    *processEval << GURLS::load
+                 << GURLS::load
+                 << GURLS::load
+                 << GURLS::load
+                 << GURLS::computeNsave
+                 << GURLS::computeNsave;
+    process->addOpt("eval", processEval);
 
-     process->addOpt("two", process2);
-   OptProcess* process3 = new OptProcess();
-    *process3 << GURLS::load << GURLS::load <<  GURLS::load <<  GURLS::load
-              <<GURLS::computeNsave << GURLS::computeNsave;
-
-
-    process->addOpt("eval", process3);
 
 
     // build an options' structure
-    string modelFileName = _dataDir + "/models/" + fingerName + "/GURLSgpr";
-    GurlsOptionsList* opt = new GurlsOptionsList(modelFileName, true);
-    opt->addOpt("seq", seq);
-    opt->addOpt("processes", process);
+    string modelFileName = _dataDir + "/models/" + _whichFinger + "/GURLSgpr";
+    _gpOpts = new GurlsOptionsList(modelFileName, true);
+    _gpOpts->addOpt("seq", seq);
+    _gpOpts->addOpt("processes", process);
+
+    OptNumber *nholdouts = new OptNumber;
+    nholdouts->setValue(2);    if(_gpOpts->hasOpt("nholdouts"))
+        _gpOpts->removeOpt("nholdouts");
+    _gpOpts->addOpt("nholdouts", nholdouts);
+
+    OptNumber *hoproportion = new OptNumber;
+    hoproportion->setValue(0.1);
+    if(_gpOpts->hasOpt("hoproportion"))
+        _gpOpts->removeOpt("hoproportion");
+    _gpOpts->addOpt("hoproportion", hoproportion);
+
+    OptNumber *epochs = new OptNumber;
+    epochs->setValue(100000);
+    if(_gpOpts->hasOpt("epochs"))
+        _gpOpts->removeOpt("epochs");
+    _gpOpts->addOpt("epochs", epochs);
+
+    OptString *hoperf = new OptString;
+    hoperf->setValue("abserr");
+    if(_gpOpts->hasOpt("hoperf"))
+        _gpOpts->removeOpt("hoperf");
+
+    _gpOpts->addOpt("hoperf", hoperf);
+
+    OptString *perfeval = new OptString;
+    perfeval->setValue("abserr");
+    if(_gpOpts->hasOpt("perfeval"))
+        _gpOpts->removeOpt("perfeval");
+    _gpOpts->addOpt("perfeval", perfeval);
+
+    //cout << "hoperf: " << opt->getOptAsString("hoperf") << endl;
+
+    //cout << "Before: " << endl << opt->toString();
+
+
+    // string jobId0("train");
+
+    //cout << "Training the model with size: " << _inputTraining.getSize() << endl;
+    // run gurls for training
+    //_objectModel.run(_inputTraining, _outputTraining, *_gpOpts, jobId0);
 
 
 
     GURLS G;
 
-    string jobId0("one");
-    string jobId1("two");
+    string jobId0("train");
+
 
     // run gurls for training
-    G.run(Xtr, ytr, *opt, jobId0);
-     opt->save(opt->getName());
-    GurlsOptionsList* opt2 = new GurlsOptionsList(modelFileName, false);
-    opt2->load(modelFileName + ".bin");
-    //run gurls for testing
-    G.run(Xte, yte, *opt2, jobId1);
-
-
-
-    //        means = opt.pred.means;
-    GurlsOptionsList* pred = GurlsOptionsList::dynacast(opt2->getOpt("pred"));
-    GurlsOption *means_opt = pred->getOpt("means");
-
-    const gMat2D<double>& means_mat = OptMatrix<gMat2D<double> >::dynacast(means_opt)->getValue();
-
-    means_mat.saveCSV(means_fileName);
-
-
-
-
+    G.run(Xtr, ytr, *_gpOpts, jobId0);
+    _gpOpts->save(_gpOpts->getName());
 
 
     return true;
@@ -322,7 +248,7 @@ void ForceReconstruction::onRead(Bottle &tactileBottle)
 {
 
 
- printf("Time: % 3.0f\n",  (std::clock() - _time) / (double)(CLOCKS_PER_SEC / 1000));
+    printf("Time: % 3.0f\n",  (std::clock() - _time) / (double)(CLOCKS_PER_SEC / 1000));
     _time = std::clock();
 
 
@@ -344,40 +270,34 @@ void ForceReconstruction::onRead(Bottle &tactileBottle)
             tactileData(1,i - _startIndex) = 0;
         else
         {
-        tactileData(1,i - _startIndex) *= tactileFactor;
+            tactileData(1,i - _startIndex) *= tactileFactor;
         }
         tactileSum += tactileData(1,i - _startIndex);
     }
     tactileSum /= 12;
 
 
-////////
-   // std::cout << "Testing..." << std::endl;
+    ////////
+    // std::cout << "Testing..." << std::endl;
     try{
-            gMat2D<double> vars;
-           //gMat2D<double>* means = _gpWrapper->eval(tactileData, vars);
-           // gurls::GurlsOptionsList opt(_gpWrapper->getOpt());
-            gMat2D<double>* means = this->eval(tactileData, vars, _gpOpts);
-  //cout << "evaluated";
-////////
-   //_gaussianProcess.run(tactileData, dummy, *_gpOpts, jobId1);
-   // OptMatrix<gMat2D<double> > *meansMatrix =   _gpOpts->getOptAs< OptMatrix<gMat2D<double> > >("pred.means");
-   //gMat2D<double> meansMatrix = (_gpOpts->getOptAs< OptMatrix<gMat2D<double> > >("pred.means"))->getValue();
-   //gMat2D<double> varsMatrix = (_gpOpts->getOptAs< OptMatrix<gMat2D<double> > >("pred.vars"))->getValue();
+        gMat2D<double> vars;
+        //gMat2D<double>* means = _gpWrapper->eval(tactileData, vars);
+        // gurls::GurlsOptionsList opt(_gpWrapper->getOpt());
+        gMat2D<double>* means = this->eval(tactileData, vars, _gpOpts);
+        //cout << "evaluated";
+        ////////
 
+        Bottle& outBottle = _port_forceCoP_out.prepare();
+        outBottle.clear();
+        outBottle.addDouble((*(means->getData()))*5);
+        outBottle.addDouble(vars(0,0));
+        outBottle.addDouble(tactileSum);
+        // outBottle.addDouble(meansMatrix(0,0));
+        //outBottle.addDouble(varsMatrix(0,0));
 
-//   gMat2D<double> meansMat = means->getData();
-   Bottle& outBottle = _forceReconstPort.prepare();
-   outBottle.clear();
-   outBottle.addDouble((*(means->getData()))*5);
-   outBottle.addDouble(vars(0,0));
-   outBottle.addDouble(tactileSum);
-  // outBottle.addDouble(meansMatrix(0,0));
-   //outBottle.addDouble(varsMatrix(0,0));
-
-   //cout << "Writing: " << outBottle.toString() << endl;
-   _forceReconstPort.write(true);
-   _forceReconstPort.waitForWrite();
+        //cout << "Writing: " << outBottle.toString() << endl;
+        _port_forceCoP_out.write(true);
+        _port_forceCoP_out.waitForWrite();
     }
     catch(gException& e)
     {
@@ -397,7 +317,7 @@ void ForceReconstruction::onRead(Bottle &tactileBottle)
 
 gMat2D<double>* ForceReconstruction::eval(const gMat2D<double> &X, gMat2D<double> &vars, gurls::GurlsOptionsList  *opt){
 
-typedef double T;
+    typedef double T;
 
     gMat2D<T> empty;
     PredGPRegr<T> predTask;
@@ -426,10 +346,10 @@ typedef double T;
     for(int i = 0; i < n; i++)
     {
 
-       for (int j = 0; j < t; j++)
-       {
-           vars(i,j) = predVars(i,j);
-       }
+        for (int j = 0; j < t; j++)
+        {
+            vars(i,j) = predVars(i,j);
+        }
     }
 
 

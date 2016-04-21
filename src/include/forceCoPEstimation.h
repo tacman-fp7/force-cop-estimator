@@ -29,8 +29,8 @@ public:
 
     // Processs the fingertip data
     virtual void onRead(Bottle& tactileBottle);
-    virtual void trainModel(){}
-    bool train();
+    //virtual void trainModel(){}
+    virtual bool train();
     bool quit();
 
 private:

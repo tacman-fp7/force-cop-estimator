@@ -2,7 +2,7 @@
 #include "forceCoPEstimation_ANN.h"
 #include <yarp/os/Value.h>
 #include <yarp/os/Property.h>
-
+#include <yarp/os/Network.h>
 
 namespace tacman
 {
@@ -169,6 +169,12 @@ bool ForceCoPEstimation_ANN::init(ResourceFinder &rf)
     cout << "Starting index: " << fingertip.startIndex << endl;
     cout << "Model file (CoP): " << fingertip.modelFile_CoP << endl << endl;
     cout << "Model file (force): " << fingertip.modelFile_force << endl << endl;
+
+
+    yarp::os::Network::connect(
+                "/" + _whichRobot + "/skin/" + _whichHand + "_hand_comp",
+                "/" + RFModule::getName() + "/" + _whichMethod + "/" + _whichHand + "_" + _whichFinger + "/tactile:i");
+
 
 
     return true;
