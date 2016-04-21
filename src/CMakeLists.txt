@@ -5,18 +5,20 @@ ${Gurls_INCLUDE_DIRS}
 ./include/)
 
 set(HEADERS
+include/forceCoPController.h
+include/contactConditionEstimator.h
 include/forceCoPEstimation.h
 include/forceCoPEstimation_ANN.h
 include/neuralNet.h
-include/forceCoPController.h
 include/gp-force-cop-estimator.h)
 
 set(SOURCES
 src/main.cpp
+src/forceCoPController.cpp
+src/contactConditionEstimator.cpp
 src/forceCoPEstimation.cpp
 src/forceCoPEstimation_ANN.cpp
 src/neuralNet.cpp
-src/forceCoPController.cpp
 src/gp-force-cop-estimator.cpp
 ${HEADERS})
 

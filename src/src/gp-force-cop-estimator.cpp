@@ -26,7 +26,7 @@ namespace tacman {
 // Create a ForceReconstruction object for bodypart.
 // partName:
 ForceReconstruction::ForceReconstruction(yarp::os::ResourceFinder &rf)
-    : ForceCoPEstimator(rf)
+    : ContactConditionEstimator(rf)
 {
     _gpOpts = NULL;
 
@@ -41,19 +41,12 @@ bool ForceReconstruction::init(yarp::os::ResourceFinder &rf)
 {
 
 
-    _dataDir = rf.check("dataDir", Value(""),
+    _dataDir = rf.check("modelPath", Value(""),
                         "data directory (string)").asString();
 
 
-    _startIndex = rf.check("startIndex", Value(-1)).asInt();
-    if(_startIndex == -1)
-    {
 
-        cerr <<"Warning: no start index was defined using defalut value of 0" << endl;
-        _startIndex = 0;
-    }
-
-    string modelName = rf.find("modelName").asString();
+    string modelName = rf.find("modelFile").asString();
     string modelFileName = "";
 
 
@@ -84,11 +77,11 @@ bool ForceReconstruction::init(yarp::os::ResourceFinder &rf)
 
     }
 
-    yarp::os::Network::connect(
+/*    yarp::os::Network::connect(
                 "/" + _whichRobot + "/skin/" + _whichHand + "_hand_comp",
                 "/" + RFModule::getName() + "/" + _whichMethod + "/" + _whichHand + "_" + _whichFinger + "/tactile:i");
 
-
+*/
 
     return true;
 }
@@ -208,17 +201,6 @@ bool ForceReconstruction::train()
         _gpOpts->removeOpt("perfeval");
     _gpOpts->addOpt("perfeval", perfeval);
 
-    //cout << "hoperf: " << opt->getOptAsString("hoperf") << endl;
-
-    //cout << "Before: " << endl << opt->toString();
-
-
-    // string jobId0("train");
-
-    //cout << "Training the model with size: " << _inputTraining.getSize() << endl;
-    // run gurls for training
-    //_objectModel.run(_inputTraining, _outputTraining, *_gpOpts, jobId0);
-
 
 
     GURLS G;
@@ -244,7 +226,7 @@ double ForceReconstruction::readOption(const std::string &main, const std::strin
     return supOpt_mat(0,0); //TODO: bounds check!
 }
 
-void ForceReconstruction::onRead(Bottle &tactileBottle)
+bool ForceReconstruction::estimateContactCondition(Bottle &tactileBottle, Bottle &contactConditionEstimate)
 {
 
 
@@ -264,15 +246,15 @@ void ForceReconstruction::onRead(Bottle &tactileBottle)
 
     double tactileSum = 0;
 
-    for (int i = _startIndex; i < _startIndex + 12; i++){
-        tactileData(1, i - _startIndex) = tactileBottle.get(i).asDouble();
-        if(tactileData(1, i - _startIndex) < 5)
-            tactileData(1,i - _startIndex) = 0;
+    for (int i = 0; i < 12; i++){
+        tactileData(1, i ) = tactileBottle.get(i).asDouble();
+        if(tactileData(1, i ) < 5)
+            tactileData(1,i ) = 0;
         else
         {
-            tactileData(1,i - _startIndex) *= tactileFactor;
+            tactileData(1,i) *= tactileFactor;
         }
-        tactileSum += tactileData(1,i - _startIndex);
+        tactileSum += tactileData(1,i );
     }
     tactileSum /= 12;
 
@@ -287,17 +269,17 @@ void ForceReconstruction::onRead(Bottle &tactileBottle)
         //cout << "evaluated";
         ////////
 
-        Bottle& outBottle = _port_forceCoP_out.prepare();
-        outBottle.clear();
-        outBottle.addDouble((*(means->getData()))*5);
-        outBottle.addDouble(vars(0,0));
-        outBottle.addDouble(tactileSum);
+       // Bottle& outBottle = _port_forceCoP_out.prepare();
+        contactConditionEstimate.clear();
+        contactConditionEstimate.addDouble((*(means->getData())));
+        //contactConditionEstimate.addDouble(vars(0,0));
+       // outBottle.addDouble(tactileSum);
         // outBottle.addDouble(meansMatrix(0,0));
         //outBottle.addDouble(varsMatrix(0,0));
 
         //cout << "Writing: " << outBottle.toString() << endl;
-        _port_forceCoP_out.write(true);
-        _port_forceCoP_out.waitForWrite();
+        //_port_forceCoP_out.write(true);
+        //_port_forceCoP_out.waitForWrite();
     }
     catch(gException& e)
     {

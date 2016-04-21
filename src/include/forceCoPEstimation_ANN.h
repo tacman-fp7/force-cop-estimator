@@ -4,6 +4,7 @@
 #include "neuralNet.h"
 #include <vector>
 #include <yarp/os/BufferedPort.h>
+#include "contactConditionEstimator.h"
 
 namespace tacman
 {
@@ -13,7 +14,7 @@ using yarp::os::Bottle;
 using yarp::os::BufferedPort;
 
 
-struct fingertip
+/*struct fingertip
 {
     int startIndex;
     string fingerName;
@@ -26,23 +27,28 @@ struct fingertip
     tacman::NeuralClassifier *model_activeTaxel;
 
 };
+*/
 
-
-typedef struct fingertip fingertip_t;
+/*typedef struct fingertip fingertip_t;
 typedef vector<fingertip_t> fingertipList_t;
-
+*/
 using yarp::os::ResourceFinder;
 
-class ForceCoPEstimation_ANN: public ForceCoPEstimator
+class ForceCoPEstimation_ANN: public ContactConditionEstimator
 {
 public:
     ForceCoPEstimation_ANN(ResourceFinder& rf);
-    void onRead(Bottle& tactileBottle);
+
+    bool estimateContactCondition(Bottle &tactileBottle, Bottle &contactConditionEstimate);
+
 
 private:
     bool init(ResourceFinder& rf);
     //fingertipList_t _fingertip_list;
-    fingertip_t fingertip;
+    //fingertip_t fingertip;
+    string _modelFile;
+    tacman::NeuralNet *_model;
+
 
 };
 

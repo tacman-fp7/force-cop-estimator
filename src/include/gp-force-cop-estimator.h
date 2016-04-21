@@ -11,6 +11,7 @@
 #include <gurls++/gprwrapper.h>
 #include <gurls++/gmat2d.h>
 #include "forceCoPEstimation.h"
+#include "contactConditionEstimator.h"
 
 
 using yarp::os::Bottle;
@@ -20,7 +21,7 @@ using std::string;
 using gurls::gMat2D;
 
 namespace tacman {
-class ForceReconstruction: public ForceCoPEstimator//BufferedPort<Bottle>
+class ForceReconstruction: public ContactConditionEstimator //ForceCoPEstimator//BufferedPort<Bottle>
 {
 public:
 
@@ -30,7 +31,8 @@ public:
     // Train the model
     bool train();
     // Processs the fingertip data
-    virtual void onRead(Bottle& tactileBottle);
+    bool estimateContactCondition(Bottle &tactileBottle, Bottle &contactConditionEstimate);
+    //virtual void onRead(Bottle& tactileBottle);
 
 
 private:
@@ -41,7 +43,7 @@ private:
 private:
     string _dataDir;
     gurls::GurlsOptionsList* _gpOpts;
-    int _startIndex;
+    //int _startIndex;
     std::clock_t _time;
 
 
