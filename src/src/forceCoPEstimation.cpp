@@ -128,6 +128,16 @@ void ForceCoPEstimator::onRead(yarp::os::Bottle &tactileBottle)
     _forceEstimator->estimateContactCondition(featureVect, forceOut );
     _activeTaxelEstimator->estimateContactCondition(featureVect, activeTaxelOut);
 
+    double maxProb = 0;
+    int maxProbIndex = 0;
+    for(int i = 0; i < activeTaxelOut.size(); i++){
+        if(activeTaxelOut.get(i).asDouble() > maxProb){
+            maxProb = activeTaxelOut.get(i).asDouble();
+            maxProbIndex = i;
+        }
+    }
+
+    activeTaxelOut.addInt(maxProbIndex + 1);
     _port_acitveTaxelProb_out.writeStrict();
     _port_cop_out.writeStrict();
     _port_force_out.writeStrict();
