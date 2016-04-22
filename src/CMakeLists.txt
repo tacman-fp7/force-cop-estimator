@@ -10,7 +10,8 @@ include/contactConditionEstimator.h
 include/forceCoPEstimation.h
 include/forceCoPEstimation_ANN.h
 include/neuralNet.h
-include/gp-force-cop-estimator.h)
+include/gp-force-cop-estimator.h
+include/badModelException.h)
 
 set(SOURCES
 src/main.cpp

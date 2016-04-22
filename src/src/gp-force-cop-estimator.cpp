@@ -230,7 +230,7 @@ bool ForceReconstruction::estimateContactCondition(Bottle &tactileBottle, Bottle
 {
 
 
-    printf("Time: % 3.0f\n",  (std::clock() - _time) / (double)(CLOCKS_PER_SEC / 1000));
+   //printf("Time: % 3.0f\n",  (std::clock() - _time) / (double)(CLOCKS_PER_SEC / 1000));
     _time = std::clock();
 
 

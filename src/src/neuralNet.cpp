@@ -20,85 +20,85 @@ NeuralNet::NeuralNet(yarp::os::Property &modelConfig)
     // Read the topology from the config file
     //[Layers 01]
 
-    std::cout << "NeuralNet" << std::endl;
+    //std::cout << "NeuralNet" << std::endl;
 
     // Input/output mapping
     Bottle *inputXoffset = modelConfig.find("inputXoffset").asList();
 
-    cout << "inputXoffset: [";
+    //cout << "inputXoffset: [";
     if (inputXoffset != NULL)
     {
         for(int i = 0; i < inputXoffset->size(); i++)
         {
             _inputXoffset.push_back(inputXoffset->get(i).asDouble());
-            cout << _inputXoffset.at(i) << " ";
+           // cout << _inputXoffset.at(i) << " ";
         }
     }
-    cout << "]" << endl;
+    //cout << "]" << endl;
 
     Bottle *inputGain = modelConfig.find("inputGain").asList();
 
 
-    cout << "inputGain: [";
+    //cout << "inputGain: [";
     if(inputGain != NULL)
     {
         for (int i = 0; i < inputGain->size(); i++)
         {
             _inputGain.push_back(inputGain->get(i).asDouble());
-            cout << _inputGain.at(i) << " ";
+            //cout << _inputGain.at(i) << " ";
         }
     }
-    cout << "]" << endl;
+    //cout << "]" << endl;
 
     _inputYmin = modelConfig.check("inputYmin", Value(-1)).asDouble();
 
-    cout << "inputYmin: " << _inputYmin << endl;
+    //cout << "inputYmin: " << _inputYmin << endl;
 
 
     Bottle *outputXoffset = modelConfig.find("outputXoffset").asList();
 
-    cout << "oputputXoffset: [";
+    //cout << "oputputXoffset: [";
     if (outputXoffset != NULL)
     {
         for(int i = 0; i < outputXoffset->size(); i++)
         {
             _outputXoffset.push_back(outputXoffset->get(i).asDouble());
-            cout << _outputXoffset.at(i) << " ";
+            //cout << _outputXoffset.at(i) << " ";
         }
     }
-    cout << "]" << endl;
+    //cout << "]" << endl;
 
 
     Bottle *outputGain = modelConfig.find("outputGain").asList();
 
-    cout << "outputGain: [";
+    //cout << "outputGain: [";
     if(outputGain != NULL)
     {
         for (int i = 0; i < outputGain->size(); i++)
         {
             _outputGain.push_back(outputGain->get(i).asDouble());
-            cout << _outputGain.at(i) << " ";
+            //cout << _outputGain.at(i) << " ";
         }
     }
-    cout << "]" << endl;
+    //cout << "]" << endl;
 
     _outputYmin = modelConfig.check("outputYmin", Value(-1)).asDouble();
 
-    cout << "outputYmin: " << _outputYmin << endl;
+    //cout << "outputYmin: " << _outputYmin << endl;
     //cout << _inputGain << endl;
 
 
     // Find the layer group
     Bottle &layers = modelConfig.findGroup("Layer");
 
-    if(layers.isNull())
-        cout << "No layers" << endl;
+   // if(layers.isNull())
+    //    cout << "No layers" << endl;
 
 
 
 
     unsigned int numLayers = layers.size();
-    cout << "Number of layers: " << layers.size() -1 << endl;
+   // cout << "Number of layers: " << layers.size() -1 << endl;
     //unsigned int numInputs = 12;
 
 
@@ -112,7 +112,7 @@ NeuralNet::NeuralNet(yarp::os::Property &modelConfig)
         // Create a new layer and add it to the layers
         _layers.push_back(Layer());
 
-        cout << "Layer: " << layers.get(numLayer).asString() << endl;
+       // cout << "Layer: " << layers.get(numLayer).asString() << endl;
 
         Bottle& step = modelConfig.findGroup(layers.get(numLayer).asString());
         // Read the config file for the layer details
@@ -120,9 +120,9 @@ NeuralNet::NeuralNet(yarp::os::Property &modelConfig)
             cout << "Step is null" << endl;
 
         unsigned int numNeurons = step.check("numNeurons", Value(0)).asInt();
-        cout << "Number of Neurons: " << numNeurons << endl;
+       // cout << "Number of Neurons: " << numNeurons << endl;
         std::string transferFcn = step.check("transferFcn", Value("invalid")).asString();
-        cout << "Transfer function: " << transferFcn << endl;
+        //cout << "Transfer function: " << transferFcn << endl;
 
         for ( unsigned int neuron = 0; neuron <= numNeurons; neuron++) // The extra neuron is for the bias
         {
@@ -147,7 +147,7 @@ NeuralNet::NeuralNet(yarp::os::Property &modelConfig)
             else
             {
 
-                cout << "Warning: no connection weights defined" << endl;
+                //cout << "Warning: no connection weights defined" << endl;
                 _layers.back().push_back(Neuron(1, neuron, transferFcn));
 
             }

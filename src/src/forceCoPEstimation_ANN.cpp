@@ -3,6 +3,7 @@
 #include <yarp/os/Value.h>
 #include <yarp/os/Property.h>
 #include <yarp/os/Network.h>
+#include "badModelException.h"
 
 namespace tacman
 {
@@ -58,6 +59,10 @@ bool ForceCoPEstimation_ANN::init(ResourceFinder &rf)
     string modelType = rf.find("modelType").asString();
 
     _modelFile = rf.findFileByName(rf.find("modelFile").asString());
+
+    if(_modelFile.empty()){
+        throw bad_model;
+    }
 
     // Open it
     Property modelConf;
