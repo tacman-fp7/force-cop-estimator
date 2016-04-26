@@ -7,6 +7,7 @@
 #include "gp-force-cop-estimator.h"
 #include "forceCoPEstimation_ANN.h"
 #include "wa-cop-estimator.h"
+#include "avrg-force-estimator.h"
 
 namespace tacman {
 
@@ -66,6 +67,9 @@ bool ForceCoPEstimator::init_estimator(ResourceFinder &rf, string estimatorCat, 
         if(estimatorCat.compare("CoPEstimator") == 0)
         {
             *estimator = new WACoPEstimator(rfEstimator);
+        }
+        else if(estimatorCat.compare("ForceEstimator") == 0){
+            *estimator = new AvrgForceEstimator(rfEstimator);
         }
         else{
             cerr << _dbgtag << "failed to load " << estimatorType << " model." << endl;

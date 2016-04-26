@@ -12,7 +12,8 @@ include/forceCoPEstimation_ANN.h
 include/neuralNet.h
 include/gp-force-cop-estimator.h
 include/badModelException.h
-include/wa-cop-estimator.h)
+include/wa-cop-estimator.h
+include/avrg-force-estimator.h)
 
 set(SOURCES
 src/main.cpp
@@ -23,6 +24,7 @@ src/forceCoPEstimation_ANN.cpp
 src/neuralNet.cpp
 src/gp-force-cop-estimator.cpp
 src/wa-cop-estimator.cpp
+src/avrg-force-estimator.cpp
 ${HEADERS})
 
 #set(CONTEXT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/bin/context" CACHE PATH "Path to the context files")
