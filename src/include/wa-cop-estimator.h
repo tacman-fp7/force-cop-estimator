@@ -22,11 +22,16 @@ class WACoPEstimator: public ContactConditionEstimator{
 public:
     WACoPEstimator(ResourceFinder& rf);
     ~WACoPEstimator(){}
-    bool estimateContactCondition(Bottle &tactileData, Bottle &contactConditionEstimate){}
+    bool estimateContactCondition(Bottle &tactileData, Bottle &contactConditionEstimate);
 
+private:
+    double min(Bottle& x);
+    double max(Bottle& x);
+    void normalise(Bottle& data, Bottle& normalisedData);
 private:
 
      array< array <double, 3>, N_TAXELS > _taxelLocations;
+     string _dbgtag;
 };
 
 } // end of namespace
