@@ -6,6 +6,7 @@
 #include <yarp/os/Network.h>
 #include "gp-force-cop-estimator.h"
 #include "forceCoPEstimation_ANN.h"
+#include "wa-cop-estimator.h"
 
 namespace tacman {
 
@@ -60,6 +61,15 @@ bool ForceCoPEstimator::init_estimator(ResourceFinder &rf, string estimatorCat, 
     }
     else if(estimatorType.compare("ann") ==  0){
         *estimator = new ForceCoPEstimation_ANN(rfEstimator);
+    }
+    else if(estimatorType.compare("avrg") == 0 ){
+        if(estimatorCat.compare("CoPEstimator") == 0)
+        {
+            *estimator = new WACoPEstimator(rfEstimator);
+        }
+        else{
+            cerr << _dbgtag << "failed to load " << estimatorType << " model." << endl;
+        }
     }
     else{
         cerr << _dbgtag << "failed to load " << estimatorType << " model." << endl;

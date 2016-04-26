@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BAD_MODEL_EXCEPTION_HEADER
+#define BAD_MODEL_EXCEPTION_HEADER
+
 #include <iostream>
 #include <exception>
 
@@ -8,3 +10,5 @@ class Bad_ModelException: public std::exception{
         return "The model file is invalid or cannot be found.";
       }
 }bad_model;
+
+#endif
