@@ -9,6 +9,7 @@ AvrgForceEstimator::AvrgForceEstimator(ResourceFinder &rf)
 
 bool AvrgForceEstimator::estimateContactCondition(Bottle &tactileData, Bottle &contactConditionEstimate){
 
+    contactConditionEstimate.clear();
     if (tactileData.size() == 0){
         contactConditionEstimate.addDouble(0);
         return false;
@@ -22,6 +23,7 @@ bool AvrgForceEstimator::estimateContactCondition(Bottle &tactileData, Bottle &c
 
     avrg = avrg/tactileData.size();
 
+    contactConditionEstimate.addDouble(avrg);
     return true;
 }
 }
