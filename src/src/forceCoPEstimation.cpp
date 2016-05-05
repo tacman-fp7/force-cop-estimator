@@ -184,9 +184,12 @@ bool ForceCoPEstimator::init(ResourceFinder& rf)
     RFModule::setName( rf.check("moduleName", Value("unknown-module")).asString().c_str());
     useCallback();
 
+    string tactilePortLocal = "/" + RFModule::getName()  + "/"  + _whichHand + "_" + _whichFinger +
+            "/tactile:i";
 
-    open("/" + RFModule::getName()  + "/"  + _whichHand + "_" + _whichFinger +
-         "/tactile:i");
+    string tactilePortRemote = "/" + _whichRobot + "/skin/" + _whichHand + "_hand_comp";
+
+    open(tactilePortLocal);
 
 
     _port_force_out.open("/" + RFModule::getName() + "/" + _whichHand + "_" + _whichFinger +
@@ -205,9 +208,11 @@ bool ForceCoPEstimator::init(ResourceFinder& rf)
 
 
 
-    yarp::os::Network::connect(
-                "/" + _whichRobot + "/skin/" + _whichHand + "_hand_comp",
-                "/" + RFModule::getName() + "/" + _whichHand + "_" + _whichFinger + "/tactile:i");
+    if(!yarp::os::Network::connect(tactilePortRemote, tactilePortLocal)){
+        cerr << _dbgtag << "Could not connect to the remote port: " << tactilePortRemote << endl;
+        return false;
+    }
+
 
 
 

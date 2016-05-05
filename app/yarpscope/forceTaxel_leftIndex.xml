@@ -9,7 +9,7 @@
           minval="-1"
           maxval="5"
           bgcolor="LightSlateGrey">
-        <graph remote="/force-cop-estimator/ann-posTax/left_index/forceCoP:o"
+        <graph remote="/force-cop-estimator/left_index/force:o"
                index="0"
                color="Red"
                title="Force Z"
