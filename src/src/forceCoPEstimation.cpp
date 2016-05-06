@@ -57,6 +57,7 @@ bool ForceCoPEstimator::init_estimator(ResourceFinder &rf, string estimatorCat, 
     string estimatorType = rfEstimator.find("estimatorType").asString();
     //    string modelFile = rfForceEstimator.find("modelFile").asString();
 
+    try{
     if(estimatorType.compare("gp") == 0){
         *estimator = new ForceReconstruction(rfEstimator);
     }
@@ -77,6 +78,10 @@ bool ForceCoPEstimator::init_estimator(ResourceFinder &rf, string estimatorCat, 
     }
     else{
         cerr << _dbgtag << "failed to load " << estimatorType << " model." << endl;
+        return false;
+    }
+    }catch(std::exception& e){
+        cerr << _dbgtag << e.what() << endl;
         return false;
     }
 

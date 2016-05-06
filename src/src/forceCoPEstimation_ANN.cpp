@@ -3,7 +3,8 @@
 #include <yarp/os/Value.h>
 #include <yarp/os/Property.h>
 #include <yarp/os/Network.h>
-#include "badModelException.h"
+//#include "badModelException.h"
+#include <stdexcept>
 
 namespace tacman
 {
@@ -61,7 +62,8 @@ bool ForceCoPEstimation_ANN::init(ResourceFinder &rf)
     _modelFile = rf.findFileByName(rf.find("modelFile").asString());
 
     if(_modelFile.empty()){
-        throw bad_model;
+
+        throw std::runtime_error("ForceCoPEstimation_ANN: model file not found.");
     }
 
     // Open it
