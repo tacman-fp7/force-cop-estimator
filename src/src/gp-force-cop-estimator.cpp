@@ -247,14 +247,14 @@ bool ForceReconstruction::estimateContactCondition(Bottle &tactileBottle, Bottle
     double tactileSum = 0;
 
     for (int i = 0; i < 12; i++){
-        tactileData(1, i ) = tactileBottle.get(i).asDouble();
-        if(tactileData(1, i ) < 5)
-            tactileData(1,i ) = 0;
+        tactileData(0, i ) = tactileBottle.get(i).asDouble();
+        if(tactileData(0, i ) < 5)
+            tactileData(0,i ) = 0;
         else
         {
-            tactileData(1,i) *= tactileFactor;
+            tactileData(0,i) *= tactileFactor;
         }
-        tactileSum += tactileData(1,i );
+        tactileSum += tactileData(0,i );
     }
     tactileSum /= 12;
 
