@@ -20,7 +20,7 @@ WACoPEstimator::WACoPEstimator(ResourceFinder &rf)
     tempArray.fill(0);
     _taxelLocations.fill(tempArray);
     // Load the taxel locations
-    string taxelLocationsFileName = _whichHand + "Hand_" + _whichFinger + "Finger_taxelLocations.ini";
+    string taxelLocationsFileName = _whichHand + "Hand_taxelLocations.ini";
 
     string taxelLocationFile = rf.findFileByName(taxelLocationsFileName);
 
