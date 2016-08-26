@@ -12,7 +12,7 @@
 	<module>
 		<name>force-cop-estimator</name>
 		<parameters>--from icubLeftIndex_combined.ini</parameters>
-		<node>icub-b3</node>
+		<node>localhost</node>
 		<display></display>
 		<stdio></stdio>
 		<dependencies>
@@ -23,7 +23,7 @@
 	<module>
 		<name>force-cop-estimator</name>
 		<parameters>--from icubLeftMiddle_combined.ini</parameters>
-		<node>icub-b3</node>
+		<node>localhost</node>
 		<display></display>
 		<stdio></stdio>
 		<dependencies>
@@ -34,13 +34,20 @@
         <module>
 		<name>yarpscope</name>
 		<parameters>--context force-cop-estimator --xml forceTaxel_icubLeftIndex.xml</parameters>
-		<node>icub22</node>
+		<node>localhost</node>
+		<dependencies>
+		  <port timeout="5.0">/force-cop-estimator/left_index/force:o</port>
+		</dependencies>
+
         </module>
 	
 	<module>
 		<name>yarpscope</name>
 		<parameters>--context force-cop-estimator --xml forceTaxel_icubLeftMiddle.xml</parameters>
-		<node>icub22</node>
+		<node>localhost</node>
+		<dependencies>
+		  <port timeout="5.0">/force-cop-estimator/left_middle/force:o</port>
+		</dependencies>
         </module>
 
 </application>
