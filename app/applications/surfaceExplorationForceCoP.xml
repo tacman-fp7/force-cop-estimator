@@ -33,7 +33,7 @@
 
         <module>
 		<name>yarpscope</name>
-		<parameters>--context force-cop-estimator --xml forceTaxel_icubLeftIndex.xml</parameters>
+		<parameters>--context force-cop-estimator --xml forceTaxel_leftIndex.xml</parameters>
 		<node>localhost</node>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/left_index/force:o</port>
@@ -43,7 +43,7 @@
 	
 	<module>
 		<name>yarpscope</name>
-		<parameters>--context force-cop-estimator --xml forceTaxel_icubLeftMiddle.xml</parameters>
+		<parameters>--context force-cop-estimator --xml forceTaxel_leftMiddle.xml</parameters>
 		<node>localhost</node>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/left_middle/force:o</port>
