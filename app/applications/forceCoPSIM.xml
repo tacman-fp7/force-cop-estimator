@@ -1,0 +1,53 @@
+<application>
+	<!-- yarpmanager file for the object surface exploration experiments -->
+	<name> NJ_SIMForceCoP </name>
+	<description> Surface Exploration ForceCoP </description>
+	<version> 0.0 </version>
+
+	<authors>
+		<author email="nawid.jamali@iit.it"> Nawid Jamali </author>
+	</authors>
+
+	<!-- Required modules -->
+	<module>
+		<name>force-cop-estimator</name>
+		<parameters>--from icubSimLeftIndex_combined.ini</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/icubSim/skin/left_hand_comp</port>
+		</dependencies>
+	</module>
+  
+	<module>
+		<name>force-cop-estimator</name>
+		<parameters>--from icubSimLeftMiddle_combined.ini</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/icubSim/skin/left_hand_comp</port>
+		</dependencies>
+	</module>
+
+        <module>
+		<name>yarpscope</name>
+		<parameters>--context force-cop-estimator --xml forceTaxel_leftIndex.xml</parameters>
+		<node>localhost</node>
+		<dependencies>
+		  <port timeout="5.0">/force-cop-estimator/left_index/force:o</port>
+		</dependencies>
+
+        </module>
+	
+	<module>
+		<name>yarpscope</name>
+		<parameters>--context force-cop-estimator --xml forceTaxel_leftMiddle.xml</parameters>
+		<node>localhost</node>
+		<dependencies>
+		  <port timeout="5.0">/force-cop-estimator/left_middle/force:o</port>
+		</dependencies>
+        </module>
+
+</application>
