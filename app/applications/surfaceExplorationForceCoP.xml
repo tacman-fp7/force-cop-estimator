@@ -16,7 +16,7 @@
 		<display></display>
 		<stdio></stdio>
 		<dependencies>
-		  <port timeout="5.0">/icubSim/skin/left_hand_comp</port>
+		  <port timeout="5.0">/icub/skin/left_hand_comp</port>
 		</dependencies>
 	</module>
   
@@ -27,7 +27,7 @@
 		<display></display>
 		<stdio></stdio>
 		<dependencies>
-		  <port timeout="5.0">/icubSim/skin/left_hand_comp</port>
+		  <port timeout="5.0">/icub/skin/left_hand_comp</port>
 		</dependencies>
 	</module>
 
