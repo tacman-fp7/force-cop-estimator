@@ -31,6 +31,28 @@
 		</dependencies>
 	</module>
 
+    <module>
+		<name>force-cop-estimator</name>
+		<parameters>--from icubLeftRing_combined.ini</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/icub/skin/left_hand_comp</port>
+		</dependencies>
+	</module>
+
+<module>
+		<name>force-cop-estimator</name>
+		<parameters>--from icubLeftLittle_combined.ini</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/icub/skin/left_hand_comp</port>
+		</dependencies>
+	</module>
+
         <module>
 		<name>yarpscope</name>
 		<parameters>--context force-cop-estimator --xml forceTaxel_leftIndex.xml --title "Index Finger"</parameters>
@@ -50,4 +72,21 @@
 		</dependencies>
         </module>
 
+<module>
+		<name>yarpscope</name>
+		<parameters>--context force-cop-estimator --xml forceTaxel_leftRing.xml --title "Ring Finger"</parameters>
+		<node>localhost</node>
+		<dependencies>
+		  <port timeout="5.0">/force-cop-estimator/left_ring/force:o</port>
+		</dependencies>
+        </module>
+
+<module>
+		<name>yarpscope</name>
+		<parameters>--context force-cop-estimator --xml forceTaxel_leftLittle.xml --title "Little Finger"</parameters>
+		<node>localhost</node>
+		<dependencies>
+		  <port timeout="5.0">/force-cop-estimator/left_little/force:o</port>
+		</dependencies>
+        </module>
 </application>
