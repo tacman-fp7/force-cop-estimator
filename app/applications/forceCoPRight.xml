@@ -1,0 +1,92 @@
+<application>
+	<!-- yarpmanager file for the object surface exploration experiments -->
+	<name> NJ_ForceCoPRight </name>
+	<description> Surface Exploration ForceCoP </description>
+	<version> 0.0 </version>
+
+	<authors>
+		<author email="nawid.jamali@iit.it"> Nawid Jamali </author>
+	</authors>
+
+	<!-- Required modules -->
+	<module>
+		<name>force-cop-estimator</name>
+		<parameters>--from icubRightIndex_combined.ini</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/icub/skin/right_hand_comp</port>
+		</dependencies>
+	</module>
+  
+	<module>
+		<name>force-cop-estimator</name>
+		<parameters>--from icubRightMiddle_combined.ini</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/icub/skin/right_hand_comp</port>
+		</dependencies>
+	</module>
+
+    <module>
+		<name>force-cop-estimator</name>
+		<parameters>--from icubRightRing_combined.ini</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/icub/skin/right_hand_comp</port>
+		</dependencies>
+	</module>
+
+<module>
+		<name>force-cop-estimator</name>
+		<parameters>--from icubRightLittle_combined.ini</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/icub/skin/right_hand_comp</port>
+		</dependencies>
+	</module>
+
+        <module>
+		<name>yarpscope</name>
+		<parameters>--context force-cop-estimator --xml forceTaxel_rightIndex.xml --title "Index Finger"</parameters>
+		<node>localhost</node>
+		<dependencies>
+		  <port timeout="5.0">/force-cop-estimator/right_index/force:o</port>
+		</dependencies>
+
+        </module>
+	
+	<module>
+		<name>yarpscope</name>
+		<parameters>--context force-cop-estimator --xml forceTaxel_rightMiddle.xml --title "Middle Finger"</parameters>
+		<node>localhost</node>
+		<dependencies>
+		  <port timeout="5.0">/force-cop-estimator/right_middle/force:o</port>
+		</dependencies>
+        </module>
+
+<module>
+		<name>yarpscope</name>
+		<parameters>--context force-cop-estimator --xml forceTaxel_rightRing.xml --title "Ring Finger"</parameters>
+		<node>localhost</node>
+		<dependencies>
+		  <port timeout="5.0">/force-cop-estimator/right_ring/force:o</port>
+		</dependencies>
+        </module>
+
+<module>
+		<name>yarpscope</name>
+		<parameters>--context force-cop-estimator --xml forceTaxel_rightLittle.xml --title "Little Finger"</parameters>
+		<node>localhost</node>
+		<dependencies>
+		  <port timeout="5.0">/force-cop-estimator/right_little/force:o</port>
+		</dependencies>
+        </module>
+</application>

@@ -1,6 +1,6 @@
 <application>
 	<!-- yarpmanager file for the object surface exploration experiments -->
-	<name> NJ_ForceCoP </name>
+	<name> NJ_ForceCoPLeft </name>
 	<description> Surface Exploration ForceCoP </description>
 	<version> 0.0 </version>
 

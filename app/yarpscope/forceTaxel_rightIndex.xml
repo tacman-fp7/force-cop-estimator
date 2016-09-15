@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<portscope rows="2" columns="1" carrier="mcast">
+    <plot gridx="0"
+          gridy="0"
+          hspan="1"
+          vspan="1"
+          title="Force"
+          size="60"
+          minval="-1"
+          maxval="5"
+          bgcolor="LightSlateGrey">
+        <graph remote="/force-cop-estimator/right_index/force:o"
+               index="0"
+               color="Red"
+               title="Force Z"
+               type="lines"
+               size="3" />
+    </plot>
+
+<plot gridx="0"
+          gridy="1"
+          hspan="1"
+          vspan="1"
+          title="Active taxel"
+          size="60"
+          minval="160"
+          maxval="0"
+          bgcolor="LightSlateGrey">
+       <graph remote="/icub/skin/right_hand_comp"
+               index="0"
+               color="LightSeaGreen"
+               title="Graph 0"
+               type="lines"
+               size="2" />	
+        <graph remote="/icub/skin/right_hand_comp"
+               index="1"
+               color="Red"
+               title="Graph 0"
+               type="lines"
+               size="2" />
+		<graph remote="/icub/skin/right_hand_comp"
+               index="2"
+               color="Green"
+               title="Graph 0"
+               type="lines"
+               size="2" />
+		<graph remote="/icub/skin/right_hand_comp"
+               index="3"
+               color="Blue"
+               title="Graph 0"
+               type="lines"
+               size="2" />
+		<graph remote="/icub/skin/right_hand_comp"
+               index="4"
+               color="Cyan"
+               title="Graph 0"
+               type="lines"
+               size="2" />
+		<graph remote="/icub/skin/right_hand_comp"
+               index="5"
+               color="Black"
+               title="Graph 0"
+               type="lines"
+               size="2" />	   
+		<graph remote="/icub/skin/right_hand_comp"
+               index="6"
+               color="Red"
+               title="Graph 0"
+               type="lines"
+               size="2" />
+		<graph remote="/icub/skin/right_hand_comp"
+               index="7"
+               color="Turquoise"
+               title="Graph 0"
+               type="lines"
+               size="2" />
+		<graph remote="/icub/skin/right_hand_comp"
+               index="8"
+               color="SpringGreen"
+               title="Graph 0"
+               type="lines"
+               size="2" />
+		<graph remote="/icub/skin/right_hand_comp"
+               index="9"
+               color="SkyBlue"
+               title="Graph 0"
+               type="lines"
+               size="2" />
+		<graph remote="/icub/skin/right_hand_comp"
+               index="10"
+               color="Sienna"
+               title="Graph 0"
+               type="lines"
+               size="2" />
+		<graph remote="/icub/skin/right_hand_comp"
+               index="11"
+               color="Orange"
+               title="Graph 0"
+               type="lines"
+               size="2" />
+		   
+		</plot>
+
+
+
+
+
+
+    
+   	
+</portscope>
