@@ -62,15 +62,21 @@ bool WACoPEstimator::estimateContactCondition(Bottle &tactileData, Bottle &conta
 
     normalise(tactileData, normalisedData);
 
+    std::cout << tactileData.toString() << endl;
+    std::cout << normalisedData.toString() << endl;
 
     double x, y, z;
     x = y = z = 0;
+
 
     for(int i = 0; i < N_TAXELS; i++){
         x += _taxelLocations.at(i).at(0) * normalisedData.get(i).asDouble();
         y += _taxelLocations.at(i).at(1) * normalisedData.get(i).asDouble();
         z += _taxelLocations.at(i).at(2) * normalisedData.get(i).asDouble();
     }
+
+
+    std::cout << "x: " << x << " y: " << y << " z: " << z << endl;
 
     contactConditionEstimate.addDouble(x);
     contactConditionEstimate.addDouble(y);
@@ -82,7 +88,31 @@ bool WACoPEstimator::estimateContactCondition(Bottle &tactileData, Bottle &conta
 
 void WACoPEstimator::normalise(Bottle &data, Bottle &normalisedData){
 
-    double minVal = min(data);
+
+    double sum = 0;
+    normalisedData.clear();
+
+    for (int i = 0; i < data.size(); i++){
+        if(data.get(i).asDouble() > 5){
+        sum += data.get(i).asDouble();
+        normalisedData.addDouble(data.get(i).asDouble());
+        }else{
+          normalisedData.addDouble(0.0);
+        }
+
+    }
+
+    if(sum == 0){
+        sum = 1;
+    }
+
+
+    for(int i = 0; i < data.size(); i++){
+        normalisedData.get(i) = normalisedData.get(i).asDouble()/sum;
+        //normalisedData.addDouble(data.get(i).asDouble() / sum);
+    }
+
+/*    double minVal = min(data);
     double maxVal = max(data);
 
     normalisedData.clear();
@@ -94,7 +124,7 @@ void WACoPEstimator::normalise(Bottle &data, Bottle &normalisedData){
     else{
         for(int i = 0; i < data.size(); i++)
             normalisedData.addDouble((data.get(i).asDouble() - minVal)/(maxVal - minVal));
-    }
+    }*/
 
 
 }
