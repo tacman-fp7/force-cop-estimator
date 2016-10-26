@@ -62,8 +62,8 @@ bool WACoPEstimator::estimateContactCondition(Bottle &tactileData, Bottle &conta
 
     normalise(tactileData, normalisedData);
 
-    std::cout << tactileData.toString() << endl;
-    std::cout << normalisedData.toString() << endl;
+    //std::cout << tactileData.toString() << endl;
+    //std::cout << normalisedData.toString() << endl;
 
     double x, y, z;
     x = y = z = 0;
@@ -76,7 +76,7 @@ bool WACoPEstimator::estimateContactCondition(Bottle &tactileData, Bottle &conta
     }
 
 
-    std::cout << "x: " << x << " y: " << y << " z: " << z << endl;
+    //std::cout << "x: " << x << " y: " << y << " z: " << z << endl;
 
     contactConditionEstimate.addDouble(x);
     contactConditionEstimate.addDouble(y);

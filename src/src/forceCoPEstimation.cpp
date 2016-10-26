@@ -105,6 +105,7 @@ bool ForceCoPEstimator::train()
 {
 
     cout << "No training method implemented" << endl;
+    _forceEstimator->train();
 
     return false;
 }

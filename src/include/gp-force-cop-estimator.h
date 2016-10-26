@@ -29,7 +29,7 @@ public:
     ~ForceReconstruction();
 
     // Train the model
-    bool train();
+    virtual bool train();
     // Processs the fingertip data
     bool estimateContactCondition(Bottle &tactileBottle, Bottle &contactConditionEstimate);
     //virtual void onRead(Bottle& tactileBottle);
