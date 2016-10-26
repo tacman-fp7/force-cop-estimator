@@ -166,7 +166,7 @@ bool ForceReconstruction::train()
 
 
     // build an options' structure
-    string modelFileName = _dataDir + "/models/" + _whichFinger + "/GURLSgpr";
+    string modelFileName = _dataDir + "/models/" + _whichHand + "_" + _whichFinger + "/GURLSgpr";
     _gpOpts = new GurlsOptionsList(modelFileName, true);
     _gpOpts->addOpt("seq", seq);
     _gpOpts->addOpt("processes", process);
