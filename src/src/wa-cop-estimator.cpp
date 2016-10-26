@@ -93,7 +93,7 @@ void WACoPEstimator::normalise(Bottle &data, Bottle &normalisedData){
     normalisedData.clear();
 
     for (int i = 0; i < data.size(); i++){
-        if(data.get(i).asDouble() > 5){
+        if(data.get(i).asDouble() > 2){
         sum += data.get(i).asDouble();
         normalisedData.addDouble(data.get(i).asDouble());
         }else{
