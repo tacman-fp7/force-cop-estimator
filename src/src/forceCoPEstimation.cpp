@@ -41,6 +41,9 @@ bool ForceCoPEstimator::configure(yarp::os::ResourceFinder &rf)
     //////////// Initialise this module /////////
     ret = ret && init(rf);
 
+    _port_ft_in.open("/force-cop-estimator/ft:i");
+    _port_ft_out.open("/force-cop-estimator/ft:o");
+    _port_taxel_out.open("/force-cop-estimator/taxel:o");
 
     return ret;
 }
@@ -127,20 +130,42 @@ void ForceCoPEstimator::onRead(yarp::os::Bottle &tactileBottle)
 {
 
 
+    // Read the corresponding ft data
+    Bottle *ft_in = _port_ft_in.read(false);
     Bottle featureVect;
 
     // Prepare the bottles for the ports
     Bottle& forceOut = _port_force_out.prepare();
     Bottle& copOut = _port_cop_out.prepare();
     Bottle& activeTaxelOut = _port_acitveTaxelProb_out.prepare();
-
-    forceOut.clear();
-    copOut.clear();
-    activeTaxelOut.clear();
+    Bottle& ft_out = _port_ft_out.prepare();
+    Bottle& taxel_out = _port_taxel_out.prepare();
 
     // The tactile data is for all of the fingers. Take only the ones
     // for this finger
     featureVect.copy(tactileBottle, _startIndex, 12);
+
+    forceOut.clear();
+    copOut.clear();
+    activeTaxelOut.clear();
+    ft_out.clear();
+    taxel_out.clear();
+
+    taxel_out.copy(featureVect);
+    _port_taxel_out.writeStrict();
+
+    if(ft_in != NULL){
+        ft_out.copy(*ft_in);
+    }
+    else{
+        for(int i = 0; i < 6; ++i){
+            ft_out.addDouble(-100);
+        }
+    }
+
+    _port_ft_out.writeStrict();
+
+
 
 
     _CoPEstimator->estimateContactCondition(featureVect, copOut);

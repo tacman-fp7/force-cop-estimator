@@ -54,7 +54,9 @@ private:
     BufferedPort<Bottle> _port_force_out;
     BufferedPort<Bottle> _port_cop_out;
     BufferedPort<Bottle> _port_acitveTaxelProb_out;
-
+    BufferedPort<Bottle> _port_ft_in;
+    BufferedPort<Bottle> _port_ft_out;
+    BufferedPort<Bottle> _port_taxel_out;
     ContactConditionEstimator *_forceEstimator;
     ContactConditionEstimator *_CoPEstimator;
     ContactConditionEstimator *_activeTaxelEstimator;
