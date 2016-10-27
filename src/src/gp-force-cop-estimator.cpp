@@ -271,7 +271,7 @@ bool ForceReconstruction::estimateContactCondition(Bottle &tactileBottle, Bottle
 
        // Bottle& outBottle = _port_forceCoP_out.prepare();
         contactConditionEstimate.clear();
-        contactConditionEstimate.addDouble((*(means->getData())));
+        contactConditionEstimate.addDouble((*(means->getData()))/10);
         //contactConditionEstimate.addDouble(vars(0,0));
        // outBottle.addDouble(tactileSum);
         // outBottle.addDouble(meansMatrix(0,0));

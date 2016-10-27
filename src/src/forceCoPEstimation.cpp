@@ -61,28 +61,28 @@ bool ForceCoPEstimator::init_estimator(ResourceFinder &rf, string estimatorCat, 
     //    string modelFile = rfForceEstimator.find("modelFile").asString();
 
     try{
-    if(estimatorType.compare("gp") == 0){
-        *estimator = new ForceReconstruction(rfEstimator);
-    }
-    else if(estimatorType.compare("ann") ==  0){
-        *estimator = new ForceCoPEstimation_ANN(rfEstimator);
-    }
-    else if(estimatorType.compare("avrg") == 0 ){
-        if(estimatorCat.compare("CoPEstimator") == 0)
-        {
-            *estimator = new WACoPEstimator(rfEstimator);
+        if(estimatorType.compare("gp") == 0){
+            *estimator = new ForceReconstruction(rfEstimator);
         }
-        else if(estimatorCat.compare("ForceEstimator") == 0){
-            *estimator = new AvrgForceEstimator(rfEstimator);
+        else if(estimatorType.compare("ann") ==  0){
+            *estimator = new ForceCoPEstimation_ANN(rfEstimator);
+        }
+        else if(estimatorType.compare("avrg") == 0 ){
+            if(estimatorCat.compare("CoPEstimator") == 0)
+            {
+                *estimator = new WACoPEstimator(rfEstimator);
+            }
+            else if(estimatorCat.compare("ForceEstimator") == 0){
+                *estimator = new AvrgForceEstimator(rfEstimator);
+            }
+            else{
+                cerr << _dbgtag << "failed to load " << estimatorType << " model." << endl;
+            }
         }
         else{
             cerr << _dbgtag << "failed to load " << estimatorType << " model." << endl;
+            return false;
         }
-    }
-    else{
-        cerr << _dbgtag << "failed to load " << estimatorType << " model." << endl;
-        return false;
-    }
     }catch(std::exception& e){
         cerr << _dbgtag << e.what() << endl;
         return false;
@@ -157,6 +157,9 @@ void ForceCoPEstimator::onRead(yarp::os::Bottle &tactileBottle)
 
     if(ft_in != NULL){
         ft_out.copy(*ft_in);
+        //for(int i = 0; i < 6; ++i){
+        //    ft_out.addDouble(std::fabs(ft_in->get(i).asDouble()));
+        //}
     }
     else{
         for(int i = 0; i < 6; ++i){

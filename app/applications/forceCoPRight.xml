@@ -11,7 +11,7 @@
 	<!-- Required modules -->
 	<module>
 		<name>force-cop-estimator</name>
-		<parameters>--from icubRightIndex_combined.ini</parameters>
+		<parameters>--from icubRightIndex.ini</parameters>
 		<node>localhost</node>
 		<display></display>
 		<stdio></stdio>
@@ -22,7 +22,7 @@
   
 	<module>
 		<name>force-cop-estimator</name>
-		<parameters>--from icubRightMiddle_combined.ini</parameters>
+		<parameters>--from icubRightMiddle.ini</parameters>
 		<node>localhost</node>
 		<display></display>
 		<stdio></stdio>
@@ -33,7 +33,7 @@
 
     <module>
 		<name>force-cop-estimator</name>
-		<parameters>--from icubRightRing_combined.ini</parameters>
+		<parameters>--from icubRightThumb.ini</parameters>
 		<node>localhost</node>
 		<display></display>
 		<stdio></stdio>
@@ -42,16 +42,6 @@
 		</dependencies>
 	</module>
 
-<module>
-		<name>force-cop-estimator</name>
-		<parameters>--from icubRightLittle_combined.ini</parameters>
-		<node>localhost</node>
-		<display></display>
-		<stdio></stdio>
-		<dependencies>
-		  <port timeout="5.0">/icub/skin/right_hand_comp</port>
-		</dependencies>
-	</module>
 
         <module>
 		<name>yarpscope</name>
@@ -74,19 +64,12 @@
 
 <module>
 		<name>yarpscope</name>
-		<parameters>--context force-cop-estimator --xml forceTaxel_rightRing.xml --title "Ring Finger"</parameters>
+		<parameters>--context force-cop-estimator --xml forceTaxel_rightThumb.xml --title "Thumb"</parameters>
 		<node>localhost</node>
 		<dependencies>
-		  <port timeout="5.0">/force-cop-estimator/right_ring/force:o</port>
+		  <port timeout="5.0">/force-cop-estimator/right_thumb/force:o</port>
 		</dependencies>
         </module>
 
-<module>
-		<name>yarpscope</name>
-		<parameters>--context force-cop-estimator --xml forceTaxel_rightLittle.xml --title "Little Finger"</parameters>
-		<node>localhost</node>
-		<dependencies>
-		  <port timeout="5.0">/force-cop-estimator/right_little/force:o</port>
-		</dependencies>
-        </module>
+
 </application>
