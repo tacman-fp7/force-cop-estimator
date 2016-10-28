@@ -1,0 +1,84 @@
+<application>
+	<!-- yarpmanager file for the object surface exploration experiments -->
+	<name> NJ_ForceLeftIndexDC </name>
+	<description> Surface Exploration ForceCoP Data collection </description>
+	<version> 0.0 </version>
+
+	<authors>
+		<author email="nawid.jamali@iit.it"> Nawid Jamali </author>
+	</authors>
+
+	<!-- Required modules -->
+	<module>
+		<name>force-cop-estimator</name>
+		<parameters>--from icubLeftIndex.ini</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/icub/skin/left_hand_comp</port>
+		</dependencies>
+	</module>
+  
+
+	<module>
+		<name>yarpdatadumper</name>
+		<parameters>--name /data/left_index/taxel</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
+		</dependencies>
+	</module>
+
+         <module>
+		<name>yarpdatadumper</name>
+		<parameters>--name /data/left_index/ft</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/force-cop-estimator/ft:o</port>
+		</dependencies>
+	</module>
+
+
+<module>
+		<name>yarpscope</name>
+		<parameters>--context force-cop-estimator --xml forceTaxel_leftIndex.xml --title "Index Finger"</parameters>
+		<node>localhost</node>
+		<dependencies>
+		  <port timeout="5.0">/force-cop-estimator/left_index/force:o</port>
+		</dependencies>
+
+        </module>
+
+
+	<connection>
+		<from>/NIDAQmxReader/data/real:o</from>
+		<to>/force-cop-estimator/ft:i</to>
+                <dependencies>
+			<port timeout="5.0">/NIDAQmxReader/data/real:o</port>
+		</dependencies>
+
+	</connection>
+	<connection>
+		<from>/force-cop-estimator/taxel:o</from>
+		<to>/data/left_index/taxel</to>
+		<dependencies>
+		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
+		</dependencies>
+	</connection>
+
+        <connection>
+		<from>/force-cop-estimator/ft:o</from>
+		<to>/data/left_index/ft</to>
+		<node>localhost</node>
+		<dependencies>
+		  <port timeout="5.0">/force-cop-estimator/ft:o</port>
+		</dependencies>
+	</connection>
+
+ 
+</application>
