@@ -46,7 +46,7 @@
 
 <module>
 		<name>yarpscope</name>
-		<parameters>--context force-cop-estimator --xml forceTaxel_leftIndexFT.xml --title "Index Finger"</parameters>
+		<parameters>--context force-cop-estimator --xml forceTaxel_leftMiddleFT.xml --title "Index Finger"</parameters>
 		<node>localhost</node>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/left_middle/force:o</port>
