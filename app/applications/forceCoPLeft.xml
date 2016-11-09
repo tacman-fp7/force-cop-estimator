@@ -11,7 +11,7 @@
 	<!-- Required modules -->
 	<module>
 		<name>force-cop-estimator</name>
-		<parameters>--from icubLeftIndex_combined.ini</parameters>
+		<parameters>--from icubLeftIndex.ini</parameters>
 		<node>localhost</node>
 		<display></display>
 		<stdio></stdio>
@@ -22,7 +22,7 @@
   
 	<module>
 		<name>force-cop-estimator</name>
-		<parameters>--from icubLeftMiddle_combined.ini</parameters>
+		<parameters>--from icubLeftMiddle.ini</parameters>
 		<node>localhost</node>
 		<display></display>
 		<stdio></stdio>
@@ -33,7 +33,7 @@
 
     <module>
 		<name>force-cop-estimator</name>
-		<parameters>--from icubLeftRing_combined.ini</parameters>
+		<parameters>--from icubLeftRing.ini</parameters>
 		<node>localhost</node>
 		<display></display>
 		<stdio></stdio>
@@ -44,7 +44,7 @@
 
 <module>
 		<name>force-cop-estimator</name>
-		<parameters>--from icubLeftLittle_combined.ini</parameters>
+		<parameters>--from icubLeftLittle.ini</parameters>
 		<node>localhost</node>
 		<display></display>
 		<stdio></stdio>
