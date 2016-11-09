@@ -54,6 +54,17 @@
 		</dependencies>
 	</module>
 
+	<module>
+		<name>yarpdatadumper</name>
+		<parameters>--name /player/left_index/left_hand_comp</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/icub/skin/left_hand_comp</port>
+		</dependencies>
+	</module>
+
 
 	<module>
 		<name>yarpscope</name>
@@ -65,6 +76,7 @@
 
         </module>
 
+	
 
 	<connection>
 		<from>/NIDAQmxReader/data/real:o</from>
@@ -97,5 +109,12 @@
 		<node>localhost</node>
 	</connection>
 
+	<connection>
+		<from>/icub/skin/left_hand_comp</from>
+		<to>/player/left_index/left_hand_comp</to>
+		<node>localhost</node>
+	</connection>
+
+	
  
 </application>

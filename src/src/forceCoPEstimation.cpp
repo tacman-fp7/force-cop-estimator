@@ -244,7 +244,7 @@ bool ForceCoPEstimator::init(ResourceFinder& rf)
 
     if(!yarp::os::Network::connect(tactilePortRemote, tactilePortLocal)){
         cerr << _dbgtag << "Could not connect to the remote port: " << tactilePortRemote << endl;
-        return false;
+        //return false;
     }
 
 
