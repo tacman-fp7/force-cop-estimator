@@ -33,7 +33,7 @@
 
     <module>
 		<name>force-cop-estimator</name>
-		<parameters>--from icubLeftRing.ini</parameters>
+		<parameters>--from icubLeftThumb.ini</parameters>
 		<node>localhost</node>
 		<display></display>
 		<stdio></stdio>
@@ -42,20 +42,10 @@
 		</dependencies>
 	</module>
 
-<module>
-		<name>force-cop-estimator</name>
-		<parameters>--from icubLeftLittle.ini</parameters>
-		<node>localhost</node>
-		<display></display>
-		<stdio></stdio>
-		<dependencies>
-		  <port timeout="5.0">/icub/skin/left_hand_comp</port>
-		</dependencies>
-	</module>
 
         <module>
 		<name>yarpscope</name>
-		<parameters>--context force-cop-estimator --xml forceTaxel_leftIndex.xml --title "Index Finger"</parameters>
+		<parameters>--context force-cop-estimator --xml forceTaxel_leftIndex.xml --title "Left Index Finger"</parameters>
 		<node>localhost</node>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/left_index/force:o</port>
@@ -65,7 +55,7 @@
 	
 	<module>
 		<name>yarpscope</name>
-		<parameters>--context force-cop-estimator --xml forceTaxel_leftMiddle.xml --title "Middle Finger"</parameters>
+		<parameters>--context force-cop-estimator --xml forceTaxel_leftMiddle.xml --title "Left Middle Finger"</parameters>
 		<node>localhost</node>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/left_middle/force:o</port>
@@ -74,19 +64,12 @@
 
 <module>
 		<name>yarpscope</name>
-		<parameters>--context force-cop-estimator --xml forceTaxel_leftRing.xml --title "Ring Finger"</parameters>
+		<parameters>--context force-cop-estimator --xml forceTaxel_leftThumb.xml --title "Left Thumb"</parameters>
 		<node>localhost</node>
 		<dependencies>
-		  <port timeout="5.0">/force-cop-estimator/left_ring/force:o</port>
+		  <port timeout="5.0">/force-cop-estimator/left_thumb/force:o</port>
 		</dependencies>
         </module>
 
-<module>
-		<name>yarpscope</name>
-		<parameters>--context force-cop-estimator --xml forceTaxel_leftLittle.xml --title "Little Finger"</parameters>
-		<node>localhost</node>
-		<dependencies>
-		  <port timeout="5.0">/force-cop-estimator/left_little/force:o</port>
-		</dependencies>
-        </module>
+
 </application>
