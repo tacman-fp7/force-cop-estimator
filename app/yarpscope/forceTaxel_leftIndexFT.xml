@@ -6,8 +6,8 @@
           vspan="1"
           title="Force"
           size="60"
-          minval="-1"
-          maxval="5"
+          minval="-7"
+          maxval="7"
           bgcolor="LightSlateGrey">
         <graph remote="/force-cop-estimator/left_index/force:o"
                index="0"
@@ -15,13 +15,13 @@
                title="Force Z"
                type="lines"
                size="3" />
-<graph remote="/force-cop-estimator/ft:o"
+	<graph remote="/force-cop-estimator/ft:o"
                index="2"
                color="Blue"
                title="Force FT"
                type="lines"
                size="3" />
-    </plot>
+</plot>
 
 <plot gridx="0"
           gridy="1"
@@ -44,74 +44,67 @@
                title="Graph 0"
                type="lines"
                size="2" />
-		<graph remote="/icub/skin/left_hand_comp"
+	<graph remote="/icub/skin/left_hand_comp"
                index="2"
                color="Green"
                title="Graph 0"
                type="lines"
                size="2" />
-		<graph remote="/icub/skin/left_hand_comp"
+	<graph remote="/icub/skin/left_hand_comp"
                index="3"
                color="Blue"
                title="Graph 0"
                type="lines"
                size="2" />
-		<graph remote="/icub/skin/left_hand_comp"
+	<graph remote="/icub/skin/left_hand_comp"
                index="4"
                color="Cyan"
                title="Graph 0"
                type="lines"
                size="2" />
-		<graph remote="/icub/skin/left_hand_comp"
+	<graph remote="/icub/skin/left_hand_comp"
                index="5"
                color="Black"
                title="Graph 0"
                type="lines"
                size="2" />	   
-		<graph remote="/icub/skin/left_hand_comp"
+	<graph remote="/icub/skin/left_hand_comp"
                index="6"
                color="Red"
                title="Graph 0"
                type="lines"
                size="2" />
-		<graph remote="/icub/skin/left_hand_comp"
+	<graph remote="/icub/skin/left_hand_comp"
                index="7"
                color="Turquoise"
                title="Graph 0"
                type="lines"
                size="2" />
-		<graph remote="/icub/skin/left_hand_comp"
+	<graph remote="/icub/skin/left_hand_comp"
                index="8"
                color="SpringGreen"
                title="Graph 0"
                type="lines"
                size="2" />
-		<graph remote="/icub/skin/left_hand_comp"
+	<graph remote="/icub/skin/left_hand_comp"
                index="9"
                color="SkyBlue"
                title="Graph 0"
                type="lines"
                size="2" />
-		<graph remote="/icub/skin/left_hand_comp"
+	<graph remote="/icub/skin/left_hand_comp"
                index="10"
                color="Sienna"
                title="Graph 0"
                type="lines"
                size="2" />
-		<graph remote="/icub/skin/left_hand_comp"
+	<graph remote="/icub/skin/left_hand_comp"
                index="11"
                color="Orange"
                title="Graph 0"
                type="lines"
                size="2" />
 		   
-		</plot>
-
-
-
-
-
-
-    
+</plot>
    	
 </portscope>

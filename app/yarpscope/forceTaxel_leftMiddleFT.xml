@@ -6,8 +6,8 @@
           vspan="1"
           title="Force"
           size="60"
-          minval="-5"
-          maxval="5"
+          minval="-7"
+          maxval="7"
           bgcolor="LightSlateGrey">
         <graph remote="/force-cop-estimator/left_middle/force:o"
                index="0"
@@ -21,7 +21,6 @@
                title="Force FT"
                type="lines"
                size="3" />
-
     </plot>
 
 <plot gridx="0"
@@ -30,8 +29,8 @@
           vspan="1"
           title="Active taxel"
           size="60"
-          minval="160"
-          maxval="0"
+          minval="0"
+          maxval="255"
           bgcolor="LightSlateGrey">
        	<graph remote="/icub/skin/left_hand_comp"
                index="12"
