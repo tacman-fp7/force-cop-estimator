@@ -44,9 +44,31 @@
 	</module>
 
 
-<module>
+	<module>
+		<name>yarpdatadumper</name>
+		<parameters>--name /data/left_thumb/forceEstimate</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/icub/skin/left_hand_comp</port>
+		</dependencies>
+	</module>
+
+	<module>
+		<name>yarpdatadumper</name>
+		<parameters>--name /player/left_thumb/left_hand_comp</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/icub/skin/left_hand_comp</port>
+		</dependencies>
+	</module>
+
+	<module>
 		<name>yarpscope</name>
-		<parameters>--context force-cop-estimator --xml forceTaxel_leftThumbFT.xml --title "Index Finger"</parameters>
+		<parameters>--context force-cop-estimator --xml forceTaxel_leftThumbFT.xml --title "Left thumb"</parameters>
 		<node>localhost</node>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/left_thumb/force:o</port>
@@ -79,6 +101,16 @@
 		  <port timeout="5.0">/force-cop-estimator/ft:o</port>
 		</dependencies>
 	</connection>
+	<connection>
+		<from>/force-cop-estimator/left_thumb/force:o</from>
+		<to>/data/left_thumb/forceEstimate</to>
+		<node>localhost</node>
+	</connection>
 
+	<connection>
+		<from>/icub/skin/left_hand_comp</from>
+		<to>/player/left_thumb/left_hand_comp</to>
+		<node>localhost</node>
+	</connection>
  
 </application>
