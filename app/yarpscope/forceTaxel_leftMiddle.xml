@@ -92,13 +92,13 @@
                title="Graph 0"
                type="lines"
                size="2" />
-		</plot>
+		
 	<graph remote="/icub/skin/left_hand_comp"
                index="23"
                color="Orange"
                title="Graph 0"
                type="lines"
                size="2" />
-		</plot>
+</plot>
    	
 </portscope>
