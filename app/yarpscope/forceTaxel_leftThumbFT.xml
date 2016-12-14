@@ -15,7 +15,7 @@
                title="Force Z"
                type="lines"
                size="3" />
-<graph remote="/force-cop-estimator/ft:o"
+	<graph remote="/force-cop-estimator/ft:o"
                index="2"
                color="Blue"
                title="Force FT"
@@ -29,8 +29,8 @@
           vspan="1"
           title="Active taxel"
           size="60"
-          minval="160"
-          maxval="0"
+          minval="0"
+          maxval="160"
           bgcolor="LightSlateGrey">
        <graph remote="/icub/skin/left_hand_comp"
                index="48"
@@ -104,14 +104,5 @@
                title="Graph 0"
                type="lines"
                size="2" />
-		   
-		</plot>
-
-
-
-
-
-
-    
-   	
+	</plot>
 </portscope>

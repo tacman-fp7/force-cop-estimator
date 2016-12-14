@@ -24,7 +24,7 @@
           title="Active taxel"
           size="60"
           minval="0"
-          maxval="255"
+          maxval="160"
           bgcolor="LightSlateGrey">
        	<graph remote="/icub/skin/left_hand_comp"
                index="12"
@@ -92,7 +92,6 @@
                title="Graph 0"
                type="lines"
                size="2" />
-		
 	<graph remote="/icub/skin/left_hand_comp"
                index="23"
                color="Orange"

@@ -23,8 +23,8 @@
           vspan="1"
           title="Active taxel"
           size="60"
-          minval="160"
-          maxval="0"
+          minval="0"
+          maxval="160"
           bgcolor="LightSlateGrey">
        <graph remote="/icub/skin/right_hand_comp"
                index="0"
@@ -98,14 +98,5 @@
                title="Graph 0"
                type="lines"
                size="2" />
-		   
-		</plot>
-
-
-
-
-
-
-    
-   	
+	</plot>
 </portscope>
