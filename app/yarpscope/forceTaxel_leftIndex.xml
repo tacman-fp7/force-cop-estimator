@@ -23,7 +23,7 @@
           vspan="1"
           title="Active taxel"
           size="60"
-          minval="0"
+          minval="-10"
           maxval="160"
           bgcolor="LightSlateGrey">
        <graph remote="/icub/skin/left_hand_comp"
