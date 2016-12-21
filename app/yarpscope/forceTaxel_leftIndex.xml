@@ -17,14 +17,14 @@
                size="3" />
     </plot>
 
-<plot gridx="0"
+    <plot gridx="0"
           gridy="1"
           hspan="1"
           vspan="1"
           title="Active taxel"
           size="60"
-          minval="160"
-          maxval="0"
+          minval="0"
+          maxval="160"
           bgcolor="LightSlateGrey">
        <graph remote="/icub/skin/left_hand_comp"
                index="0"
@@ -98,14 +98,6 @@
                title="Graph 0"
                type="lines"
                size="2" />
-		   
-		</plot>
+	</plot>
 
-
-
-
-
-
-    
-   	
 </portscope>
