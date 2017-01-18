@@ -11,7 +11,7 @@
 	<!-- Required modules -->
 	<module>
 		<name>force-cop-estimator</name>
-		<parameters>--from icubRightIndex.ini</parameters>
+		<parameters>--from icubRightMiddle.ini</parameters>
 		<node>localhost</node>
 		<display></display>
 		<stdio></stdio>
@@ -22,10 +22,10 @@
   
 <module>
 		<name>yarpscope</name>
-		<parameters>--context force-cop-estimator --xml forceTaxel_rightIndex.xml --title "Index Finger"</parameters>
+		<parameters>--context force-cop-estimator --xml forceTaxel_rightMiddle.xml --title "Middle Finger"</parameters>
 		<node>localhost</node>
 		<dependencies>
-		  <port timeout="5.0">/force-cop-estimator/right_index/force:o</port>
+		  <port timeout="5.0">/force-cop-estimator/right_middle/force:o</port>
 		</dependencies>
 
         </module>
@@ -33,7 +33,7 @@
 
 	<module>
 		<name>yarpdatadumper</name>
-		<parameters>--name /flat/right_index/taxel</parameters>
+		<parameters>--name /flat/right_middle/taxel</parameters>
 		<node>localhost</node>
 		<display></display>
 		<stdio></stdio>
@@ -44,7 +44,7 @@
 
 <module>
 		<name>yarpdatadumper</name>
-		<parameters>--name /edge_000/right_index/taxel</parameters>
+		<parameters>--name /edge_000/right_middle/taxel</parameters>
 		<node>localhost</node>
 		<display></display>
 		<stdio></stdio>
@@ -55,7 +55,7 @@
 
 <module>
 		<name>yarpdatadumper</name>
-		<parameters>--name /edge_045/right_index/taxel</parameters>
+		<parameters>--name /edge_045/right_middle/taxel</parameters>
 		<node>localhost</node>
 		<display></display>
 		<stdio></stdio>
@@ -66,19 +66,7 @@
 
 <module>
 		<name>yarpdatadumper</name>
-		<parameters>--name /edge_090/right_index/taxel</parameters>
-		<node>localhost</node>
-		<display></display>
-		<stdio></stdio>
-		<dependencies>
-		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
-		</dependencies>
-	</module>
-
-
-<module>
-		<name>yarpdatadumper</name>
-		<parameters>--name /edge_135/right_index/taxel</parameters>
+		<parameters>--name /edge_090/right_middle/taxel</parameters>
 		<node>localhost</node>
 		<display></display>
 		<stdio></stdio>
@@ -90,75 +78,7 @@
 
 <module>
 		<name>yarpdatadumper</name>
-		<parameters>--name /edge_180/right_index/taxel</parameters>
-		<node>localhost</node>
-		<display></display>
-		<stdio></stdio>
-		<dependencies>
-		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
-		</dependencies>
-	</module>
-
-<module>
-		<name>yarpdatadumper</name>
-		<parameters>--name /edge_225/right_index/taxel</parameters>
-		<node>localhost</node>
-		<display></display>
-		<stdio></stdio>
-		<dependencies>
-		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
-		</dependencies>
-	</module>
-
-<module>
-		<name>yarpdatadumper</name>
-		<parameters>--name /edge_270/right_index/taxel</parameters>
-		<node>localhost</node>
-		<display></display>
-		<stdio></stdio>
-		<dependencies>
-		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
-		</dependencies>
-	</module>
-
-<module>
-		<name>yarpdatadumper</name>
-		<parameters>--name /edge_315/right_index/taxel</parameters>
-		<node>localhost</node>
-		<display></display>
-		<stdio></stdio>
-		<dependencies>
-		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
-		</dependencies>
-	</module>
-
-
-
-<module>
-		<name>yarpdatadumper</name>
-		<parameters>--name /corner_000/right_index/taxel</parameters>
-		<node>localhost</node>
-		<display></display>
-		<stdio></stdio>
-		<dependencies>
-		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
-		</dependencies>
-	</module>
-
-<module>
-		<name>yarpdatadumper</name>
-		<parameters>--name /corner_045/right_index/taxel</parameters>
-		<node>localhost</node>
-		<display></display>
-		<stdio></stdio>
-		<dependencies>
-		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
-		</dependencies>
-	</module>
-
-<module>
-		<name>yarpdatadumper</name>
-		<parameters>--name /corner_090/right_index/taxel</parameters>
+		<parameters>--name /edge_135/right_middle/taxel</parameters>
 		<node>localhost</node>
 		<display></display>
 		<stdio></stdio>
@@ -170,7 +90,75 @@
 
 <module>
 		<name>yarpdatadumper</name>
-		<parameters>--name /corner_135/right_index/taxel</parameters>
+		<parameters>--name /edge_180/right_middle/taxel</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
+		</dependencies>
+	</module>
+
+<module>
+		<name>yarpdatadumper</name>
+		<parameters>--name /edge_225/right_middle/taxel</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
+		</dependencies>
+	</module>
+
+<module>
+		<name>yarpdatadumper</name>
+		<parameters>--name /edge_270/right_middle/taxel</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
+		</dependencies>
+	</module>
+
+<module>
+		<name>yarpdatadumper</name>
+		<parameters>--name /edge_315/right_middle/taxel</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
+		</dependencies>
+	</module>
+
+
+
+<module>
+		<name>yarpdatadumper</name>
+		<parameters>--name /corner_000/right_middle/taxel</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
+		</dependencies>
+	</module>
+
+<module>
+		<name>yarpdatadumper</name>
+		<parameters>--name /corner_045/right_middle/taxel</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
+		</dependencies>
+	</module>
+
+<module>
+		<name>yarpdatadumper</name>
+		<parameters>--name /corner_090/right_middle/taxel</parameters>
 		<node>localhost</node>
 		<display></display>
 		<stdio></stdio>
@@ -182,7 +170,19 @@
 
 <module>
 		<name>yarpdatadumper</name>
-		<parameters>--name /corner_180/right_index/taxel</parameters>
+		<parameters>--name /corner_135/right_middle/taxel</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
+		</dependencies>
+	</module>
+
+
+<module>
+		<name>yarpdatadumper</name>
+		<parameters>--name /corner_180/right_middle/taxel</parameters>
 		<node>localhost</node>
 		<display></display>
 		<stdio></stdio>
@@ -193,7 +193,7 @@
 
 <module>
 		<name>yarpdatadumper</name>
-		<parameters>--name /corner_225/right_index/taxel</parameters>
+		<parameters>--name /corner_225/right_middle/taxel</parameters>
 		<node>localhost</node>
 		<display></display>
 		<stdio></stdio>
@@ -204,7 +204,7 @@
 
 <module>
 		<name>yarpdatadumper</name>
-		<parameters>--name /corner_270/right_index/taxel</parameters>
+		<parameters>--name /corner_270/right_middle/taxel</parameters>
 		<node>localhost</node>
 		<display></display>
 		<stdio></stdio>
@@ -215,7 +215,7 @@
 
 <module>
 		<name>yarpdatadumper</name>
-		<parameters>--name /corner_315/right_index/taxel</parameters>
+		<parameters>--name /corner_315/right_middle/taxel</parameters>
 		<node>localhost</node>
 		<display></display>
 		<stdio></stdio>
@@ -226,7 +226,7 @@
 
          <module>
 		<name>yarpdatadumper</name>
-		<parameters>--name /data/right_index/ft</parameters>
+		<parameters>--name /data/right_middle/ft</parameters>
 		<node>localhost</node>
 		<display></display>
 		<stdio></stdio>
@@ -239,7 +239,7 @@
 
  <connection>
 		<from>/force-cop-estimator/taxel:o</from>
-		<to>/flat/right_index/taxel</to>
+		<to>/flat/right_middle/taxel</to>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
 		</dependencies>
@@ -247,7 +247,7 @@
 
 	<connection>
 		<from>/force-cop-estimator/taxel:o</from>
-		<to>/edge_000/right_index/taxel</to>
+		<to>/edge_000/right_middle/taxel</to>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
 		</dependencies>
@@ -255,7 +255,7 @@
 
 <connection>
 		<from>/force-cop-estimator/taxel:o</from>
-		<to>/edge_000/right_index/taxel</to>
+		<to>/edge_000/right_middle/taxel</to>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
 		</dependencies>
@@ -263,7 +263,7 @@
 
 <connection>
 		<from>/force-cop-estimator/taxel:o</from>
-		<to>/edge_000/right_index/taxel</to>
+		<to>/edge_000/right_middle/taxel</to>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
 		</dependencies>
@@ -271,7 +271,7 @@
 
 <connection>
 		<from>/force-cop-estimator/taxel:o</from>
-		<to>/edge_045/right_index/taxel</to>
+		<to>/edge_045/right_middle/taxel</to>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
 		</dependencies>
@@ -279,7 +279,7 @@
 
 <connection>
 		<from>/force-cop-estimator/taxel:o</from>
-		<to>/edge_090/right_index/taxel</to>
+		<to>/edge_090/right_middle/taxel</to>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
 		</dependencies>
@@ -287,7 +287,7 @@
 
 <connection>
 		<from>/force-cop-estimator/taxel:o</from>
-		<to>/edge_135/right_index/taxel</to>
+		<to>/edge_135/right_middle/taxel</to>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
 		</dependencies>
@@ -295,7 +295,7 @@
 
 <connection>
 		<from>/force-cop-estimator/taxel:o</from>
-		<to>/edge_180/right_index/taxel</to>
+		<to>/edge_180/right_middle/taxel</to>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
 		</dependencies>
@@ -303,7 +303,7 @@
 
 <connection>
 		<from>/force-cop-estimator/taxel:o</from>
-		<to>/edge_225/right_index/taxel</to>
+		<to>/edge_225/right_middle/taxel</to>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
 		</dependencies>
@@ -311,7 +311,7 @@
 
 <connection>
 		<from>/force-cop-estimator/taxel:o</from>
-		<to>/edge_270/right_index/taxel</to>
+		<to>/edge_270/right_middle/taxel</to>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
 		</dependencies>
@@ -320,7 +320,7 @@
 
 <connection>
 		<from>/force-cop-estimator/taxel:o</from>
-		<to>/edge_315/right_index/taxel</to>
+		<to>/edge_315/right_middle/taxel</to>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
 		</dependencies>
@@ -331,7 +331,7 @@
 
 	<connection>
 		<from>/force-cop-estimator/taxel:o</from>
-		<to>/corner_000/right_index/taxel</to>
+		<to>/corner_000/right_middle/taxel</to>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
 		</dependencies>
@@ -339,7 +339,7 @@
 
 <connection>
 		<from>/force-cop-estimator/taxel:o</from>
-		<to>/corner_000/right_index/taxel</to>
+		<to>/corner_000/right_middle/taxel</to>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
 		</dependencies>
@@ -347,7 +347,7 @@
 
 <connection>
 		<from>/force-cop-estimator/taxel:o</from>
-		<to>/corner_000/right_index/taxel</to>
+		<to>/corner_000/right_middle/taxel</to>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
 		</dependencies>
@@ -355,7 +355,7 @@
 
 <connection>
 		<from>/force-cop-estimator/taxel:o</from>
-		<to>/corner_045/right_index/taxel</to>
+		<to>/corner_045/right_middle/taxel</to>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
 		</dependencies>
@@ -363,7 +363,7 @@
 
 <connection>
 		<from>/force-cop-estimator/taxel:o</from>
-		<to>/corner_090/right_index/taxel</to>
+		<to>/corner_090/right_middle/taxel</to>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
 		</dependencies>
@@ -371,7 +371,7 @@
 
 <connection>
 		<from>/force-cop-estimator/taxel:o</from>
-		<to>/corner_135/right_index/taxel</to>
+		<to>/corner_135/right_middle/taxel</to>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
 		</dependencies>
@@ -379,7 +379,7 @@
 
 <connection>
 		<from>/force-cop-estimator/taxel:o</from>
-		<to>/corner_180/right_index/taxel</to>
+		<to>/corner_180/right_middle/taxel</to>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
 		</dependencies>
@@ -387,7 +387,7 @@
 
 <connection>
 		<from>/force-cop-estimator/taxel:o</from>
-		<to>/corner_225/right_index/taxel</to>
+		<to>/corner_225/right_middle/taxel</to>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
 		</dependencies>
@@ -395,7 +395,7 @@
 
 <connection>
 		<from>/force-cop-estimator/taxel:o</from>
-		<to>/corner_270/right_index/taxel</to>
+		<to>/corner_270/right_middle/taxel</to>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
 		</dependencies>
@@ -404,7 +404,7 @@
 
 <connection>
 		<from>/force-cop-estimator/taxel:o</from>
-		<to>/corner_315/right_index/taxel</to>
+		<to>/corner_315/right_middle/taxel</to>
 		<dependencies>
 		  <port timeout="5.0">/force-cop-estimator/taxel:o</port>
 		</dependencies>
