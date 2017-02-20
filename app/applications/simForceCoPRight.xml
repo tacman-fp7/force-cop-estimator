@@ -1,0 +1,35 @@
+<application>
+	<!-- yarpmanager file for the object surface exploration experiments -->
+	<name> NJ_SimForceCoPRight </name>
+	<description> Surface Exploration ForceCoP </description>
+	<version> 0.0 </version>
+
+	<authors>
+		<author email="nawid.jamali@iit.it"> Nawid Jamali </author>
+	</authors>
+
+	<!-- Required modules -->
+	<module>
+		<name>force-cop-estimator</name>
+		<parameters>--from simRightIndex.ini</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/icubSim/skin/right_hand_comp</port>
+		</dependencies>
+	</module>
+  
+	<module>
+		<name>force-cop-estimator</name>
+		<parameters>--from simRightMiddle.ini</parameters>
+		<node>localhost</node>
+		<display></display>
+		<stdio></stdio>
+		<dependencies>
+		  <port timeout="5.0">/icubSim/skin/right_hand_comp</port>
+		</dependencies>
+	</module>
+
+
+</application>
